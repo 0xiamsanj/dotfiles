@@ -1,0 +1,4 @@
+xset r rate 350 50
+setxkbmap -option caps:super,altwin:menu_win
+killall xcape 2>/dev/null ; xcape -e 'Super_L=Escape'
+xset -q | grep -q "Caps Lock:\s*on" && xdotool key Caps_Lock

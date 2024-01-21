@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+export NVIM_APPNAME="${NVIM_APPNAME:-"nvoid"}"
+
+export NVOID_RUNTIME_DIR="${NVOID_RUNTIME_DIR:-"/home/sanj/.local/share/nvoid"}"
+export NVOID_CONFIG_DIR="${NVOID_CONFIG_DIR:-"/home/sanj/.config/nvoid"}"
+export NVOID_CACHE_DIR="${NVOID_CACHE_DIR:-"/home/sanj/.cache/nvoid"}"
+
+export NVOID_BASE_DIR="${NVOID_BASE_DIR:-"/home/sanj/.local/share/nvoid/nvoid"}"
+
+exec -a "$NVIM_APPNAME" nvim -u "$NVOID_BASE_DIR/init.lua" "$@"
