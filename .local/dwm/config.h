@@ -219,7 +219,7 @@ static const Key keys[] = {
 	/* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_x,		incrgaps,	{.i = -3 } },
 	/* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ CODE , NULL } } },
+	{ MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ "telegram-desktop" , NULL } } },
 	{ MODKEY|ShiftMask,		XK_c,		spawn,		{.v = (const char*[]){ ANDROID, NULL } } },
 	/* V is automatically bound above in STACKKEYS */
 	{ MODKEY,			XK_b,		togglebar,	{0} },
