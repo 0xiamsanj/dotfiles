@@ -56,16 +56,17 @@ alias \
  ls="ls --color=auto" \
  cls='clear' \
  vim="nvim"   \
- ll='ls -la' \
- token='pass show github_token | xclip -selection clipboard' \
+ ll='ls -lah' \
+ token='pass show github_token | xclip -selection clipboard;echo Password copied successfully' \
  notes="nvim ~/Documents/notes" \
  pp="cd ~/Public/Projects;ls" \
  rp="cd ~/Public/Ref-Projects;ls" \
- aoc="cd ~/Public/Advent_of_Code;ls" \
  dsa="cd ~/Public/90_Days_of_DSA;ls"\
+ scratch="cd ~/Scratchpad;ls"\
+ aoco="cd ~/Public/Advent_of_Code;ls"\
  learn="cd ~/Public/Learning;ls" \
  cf="cd ~/.config;ls"   \
- skill="cd ~/Public/90_Days_of_DSA/SkillRack;ls"   \
+ skill="cd ~/Public/90_Days_of_DSA/SkillRack;ls"\
  ff="cd \$(fzf -i | rev | cut -d '/' -f 2- | rev);ls" \
  src='cd ~/.local/source;ls' \
  bin='cd ~/.local/bin;ls' \
@@ -87,7 +88,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
+export EDITOR="nvim"
 # golang path
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
