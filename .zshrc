@@ -52,25 +52,6 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 #
-alias \
- ls="ls --color=auto" \
- cls='clear' \
- vim="nvim"   \
- ll='ls -lah' \
- token='pass show github_token | xclip -selection clipboard;echo Password copied successfully' \
- notes="nvim ~/Documents/notes" \
- pp="cd ~/Public/Projects;ls" \
- rp="cd ~/Public/Ref-Projects;ls" \
- dsa="cd ~/Public/90_Days_of_DSA;ls"\
- scratch="cd ~/Scratchpad;ls"\
- aoco="cd ~/Public/Advent_of_Code;ls"\
- learn="cd ~/Public/Learning;ls" \
- cf="cd ~/.config;ls"   \
- skill="cd ~/Public/90_Days_of_DSA/SkillRack;ls"\
- ff="cd \$(fzf -i | rev | cut -d '/' -f 2- | rev);ls" \
- src='cd ~/.local/source;ls' \
- bin='cd ~/.local/bin;ls' \
-
 #Auto Completion
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
@@ -82,24 +63,5 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   exec startx &>/dev/null
 fi
 
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-
-export EDITOR="nvim"
-# golang path
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
-
-
-# bun completions
-[ -s "/home/sanj/.bun/_bun" ] && source "/home/sanj/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+source ~/.config/zsh/envs
+source ~/.config/zsh/aliases
