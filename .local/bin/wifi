@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Function to get the network status
+get_network_status() {
+    # Get the default network interface
+    default_interface=$(ip route | awk '/default/ { print $5 }')
+
+    # Check if the default interface is Wi-Fi or Ethernet
+    if [ "$(cat /sys/class/net/${default_interface}/operstate 2>/dev/null)" == "up" ]; then
+        if [ "$(cat /sys/class/net/${default_interface}/carrier 2>/dev/null)" == "1" ]; then
+            # Get the SSID of the Wi-Fi network
+            ssid=$(iwgetid -r)
+            if [ -n "$ssid" ]; then
+                echo "  $ssid"
+            else
+                echo "  Connected"
+            fi
+        else
+            echo "  Ethernet"
+        fi
+    else
+        echo "Disconnected"
+    fi
+}
+
+# Display the network status
+echo "$(get_network_status)"
