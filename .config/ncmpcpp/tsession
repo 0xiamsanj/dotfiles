@@ -1,0 +1,35 @@
+neww
+
+#image pane; run cover script, disable text output and remove prompt
+send-keys "stty -echo" C-m
+send-keys "tput civis -- invisible" C-m
+send-keys "export PS1=''" C-m
+send-keys "clear" C-m
+send-keys "~/.config/ncmpcpp/cover.sh " C-m
+send-keys "clear" C-m
+
+#visualizer pane; run instance of ncmpcpp in visualizer mode
+split-window -v -l 65%
+
+#catalog pane; run instance of ncmpcpp
+select-pane -t 1
+split-window -h -l 83%
+select-pane -t 3
+send-keys "ncmpcpp --config='~/.config/ncmpcpp/catalog.conf'" C-m
+send-keys 1
+
+
+select-pane -t 2
+send-keys "ncmpcpp --config='~/.config/ncmpcpp/visualizer.conf'" C-m
+send-keys 8
+send-keys u
+
+#resize image and visualizer pane to fit image
+resize-pane -t 1 -x 41   -y 17
+# resize-pane -t 2 -y 23
+
+#hook for keeping the image pane size constant
+# set-hook client-resized 'resize-pane -t 0 -x 29 -y 23'
+
+#focus on catalog pane
+select-pane -t 3
