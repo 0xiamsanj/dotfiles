@@ -19,7 +19,7 @@ get_network_status() {
             echo "  Ethernet"
         fi
     else
-        echo "Disconnected"
+        echo "󰖭 Oops"
     fi
 }
 

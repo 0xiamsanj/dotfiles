@@ -1,0 +1,15 @@
+#!/bin/bash
+
+FUNC=$1
+
+spawn(){
+    tmux source-file ~/.config/tmux/custom/$1.conf
+}
+
+case "$FUNC" in
+    "dev") spawn dev
+        ;;
+    "multi") spawn multi_win
+        ;;
+esac
+
