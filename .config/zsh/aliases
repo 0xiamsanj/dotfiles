@@ -17,7 +17,5 @@ alias \
  skill="cd ~/Public/90_Days_of_DSA/SkillRack;ls"\
  ff="cd \$(fzf -i | rev | cut -d '/' -f 2- | rev);ls" \
  src='cd ~/.local/source;ls' \
- music='tmux new-session -s $$ "tmux source-file ~/.config/ncmpcpp/tsession"'\
  bin='cd ~/.local/bin;ls' \
 
-_trap_exit() { tmux kill-session -t $$; }
