@@ -11,5 +11,7 @@ case "$FUNC" in
         ;;
     "multi") spawn multi_win
         ;;
+    "music") spawn music
+        ;;
 esac
 
