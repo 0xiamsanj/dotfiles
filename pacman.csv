@@ -77,7 +77,6 @@ haveged 1.9.18-1
 hdparm 9.65-1
 htop-vim 3.3.0-1
 hwdetect 2024.03.05-1
-hypersign-ssi 0.1.9.037a76a-1
 inetutils 2.5-1
 inotify-tools 4.23.9.0-1
 intel-ucode 20240312-1
@@ -85,9 +84,6 @@ intellij-idea-community-edition-jre 2023.3.5-1
 iptables-nft 1:1.8.10-1
 iwd 2.16-1
 j4-dmenu-desktop-git 2.18.r99.g7e3fd04-1
-jadx 1.4.7-1
-jellyfin-server 10.8.13-1
-jellyfin-web 10.8.13-1
 jfsutils 1.1.15-9
 khal 0.11.3-1
 kubo 0.27.0-2
@@ -130,7 +126,6 @@ nautilus 46.0-1
 ncmpcpp 0.9.2-16
 neofetch 7.1.0-2
 neomutt 20240323-1
-neovide 0.12.2-1
 neovim 0.9.5-3
 net-tools 2.10-2
 netctl 1.29-1
