@@ -4,7 +4,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-
+export BW_SESSION="vJtZXk1WQERKO6KxWg8wt8ElxRNXa+0cCJqBiDRSdyRn/PK3NYYDu8b2aPlfMsvDIVTanaD60X9DxO+Yk5EOxg=="
 export MUSIC_DIR="/mnt/Games/Songs"
 export EDITOR="nvim"
 # golang path
@@ -18,3 +18,11 @@ export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# XDG VARIABLES
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_CONFIG_DIRS="/etc/xdg"
+export XDG_DATA_DIRS="/usr/local/share:/usr/share"
