@@ -44,6 +44,8 @@ require("lazy").setup({
 
     { "joshdick/onedark.vim", name = "onedark" },
 
+    { "norcalli/nvim-colorizer.lua", name = "nvim-colorizer.lua" },
+
     { "folke/tokyonight.nvim", name = "tokyonight" },
  { "ellisonleao/gruvbox.nvim", name = "gruvbox" } ,
     -- IndenLine
@@ -92,6 +94,11 @@ require("lazy").setup({
 	{
 		'mbbill/undotree'
 	},
+
+    -- Vim tmux navigator
+    {
+        'christoomey/vim-tmux-navigator'
+    },
 
     -- AutoPairs
 	{
