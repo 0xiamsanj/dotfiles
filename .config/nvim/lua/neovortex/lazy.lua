@@ -48,6 +48,12 @@ require("lazy").setup({
 
     { "folke/tokyonight.nvim", name = "tokyonight" },
  { "ellisonleao/gruvbox.nvim", name = "gruvbox" } ,
+    {
+        'barrett-ruth/live-server.nvim',
+        build = 'pnpm add -g live-server',
+        cmd = { 'LiveServerStart', 'LiveServerStop' },
+        config = true
+    },
     -- IndenLine
     {
         "echasnovski/mini.indentscope",

@@ -1,8 +1,9 @@
 sw_volume: 100
 audio_device_state:1:pulse
 audio_device_state:1:Visualizer feed
-state: stop
-current: 7
+state: pause
+current: 2
+time: 24.750000
 random: 0
 repeat: 0
 single: 0
@@ -11,12 +12,7 @@ crossfade: 0
 mixrampdb: 0.000000
 mixrampdelay: -1.000000
 playlist_begin
-0:English/03. Gangsta's Paradise (feat. L.V.).flac
-1:English/Akon - Lonely.flac
-2:Malayalam/Neela_Nilave_From_RDX_Hesham_Abdul_Wahab,_Sam_C_S_,_Manu_Manjith.flac
-3:Feel/05 Thanga Sela.m4a
-4:Feel/01 - Kadhal Kanmani.flac
-5:English/Bhagavan Rap - Sathyan  Rajeev Tha Prophecy (FLAC).flac
-6:English/13_See_You_Again_feat_Charlie_Puth_From_'Furious_7'.flac
-7:Illuminati.flac
+0:Hindi/Gaurav Chatterji - Kaise Ab Kahein (From  Gutar Gu ).flac
+1:U1/07 - Oru Paarvaiyil.wav
+2:Hindi/Jawad_Ahmed,_Sharib_Toshi,_Arijit_Singh,_Shreya_Ghoshal_Sa.flac
 playlist_end

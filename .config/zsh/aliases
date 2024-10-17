@@ -4,7 +4,7 @@ alias \
  cls='clear' \
  vim="nvim"   \
  ll='ls -lah' \
- token='pass show github_token | xclip -selection clipboard;echo Password copied successfully' \
+ token='pass show password_store/github_token | xclip -selection clipboard;echo Password copied successfully' \
  notes="nvim ~/Documents/notes" \
  venv="source ~/Public/Pip/.venv/bin/activate"\
  pp="cd ~/Public/Projects;ls" \
@@ -18,4 +18,5 @@ alias \
  ff="cd \$(fzf -i | rev | cut -d '/' -f 2- | rev);ls" \
  src='cd ~/.local/source;ls' \
  bin='cd ~/.local/bin;ls' \
- lfs='cd ~/Public/Linux_From_Scratch/;ls'
+ lfs='cd ~/Public/Linux_From_Scratch/;ls' \
+ low='cd ~/Public/low_level/systems-programming/;ls'
