@@ -16,4 +16,3 @@ while inotifywait -q -q -e close_write "$COVER"; do
   add_cover
 done
 )
-clear
