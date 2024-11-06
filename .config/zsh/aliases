@@ -3,6 +3,7 @@ alias \
  ls="ls --color=auto" \
  cls='clear' \
  vim="nvim"   \
+ vi="nvim"   \
  ll='ls -lah' \
  token='pass show password_store/github_token | xclip -selection clipboard;echo Password copied successfully' \
  notes="nvim ~/Documents/notes" \
@@ -19,4 +20,6 @@ alias \
  src='cd ~/.local/source;ls' \
  bin='cd ~/.local/bin;ls' \
  lfs='cd ~/Public/Linux_From_Scratch/;ls' \
- low='cd ~/Public/low_level/systems-programming/;ls'
+ cap='du -sh *'\
+ low='cd ~/Public/low_level/systems-programming/;ls'\
+ docs='cd ~/Documents/;ls'
