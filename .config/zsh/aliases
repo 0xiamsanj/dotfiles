@@ -22,4 +22,6 @@ alias \
  lfs='cd ~/Public/Linux_From_Scratch/;ls' \
  cap='du -sh *'\
  low='cd ~/Public/low_level/systems-programming/;ls'\
- docs='cd ~/Documents/;ls'
+ doc='cd ~/Documents/;ls'\
+ dw='cd ~/Downloads/;ls'\
+ pb='cd ~/Public/;ls'
