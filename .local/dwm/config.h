@@ -5,6 +5,7 @@
 #define TERMCLASS "alacritty"
 #define BROWSER "thorium-browser"
 #define FIREFOX "firefox"
+#define BRAVE  "brave"
 #define CODE "code"
 #define ANDROID "android-studio-beta"
 #define FILEMANAGER "thunar"
@@ -26,8 +27,15 @@ static char normbgcolor[]           = "#000000";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#000000";
-static char selbordercolor[]        = "#a1baf0";
-static char selbgcolor[]            = "#a1baf0";
+
+// Rosepine colorscheme
+static char selbordercolor[]        = "#d7827e";
+static char selbgcolor[]            = "#d7827e";
+
+// Nordic colorscheme
+/* static char selbordercolor[]        = "#a1baf0";
+static char selbgcolor[]            = "#a1baf0"; */
+
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -198,7 +206,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
 	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
-	{ MODKEY|ShiftMask,		XK_d,		spawn,		{.v = (const char*[]){ "passmenu", NULL } } },
+	{ MODKEY|ShiftMask,		XK_d,		spawn,		{.v = (const char*[]){ BRAVE, NULL } } },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	/* { MODKEY|ControlMask,		XK_f,		spawn,	        {.v = (const char*[]){ TERMINAL, "-e","cd / && fzf -i", NULL } } }, */
 	{ MODKEY|ShiftMask,		XK_f,		setlayout,	{.v = &layouts[8]} },
