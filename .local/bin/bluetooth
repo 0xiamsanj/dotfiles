@@ -1,0 +1,13 @@
+#!/bin/bash
+
+device_name=$(bluetoothctl devices Connected | cut -d' ' -f3-)
+status=''
+icon=''
+if ! [ -z $device_name ] ; then
+   status="$device_name"
+   icon='󰂰'
+else
+   status="Not connected"
+   icon='󰂲'
+fi
+echo "$icon $status"
