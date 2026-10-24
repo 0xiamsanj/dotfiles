@@ -1,61 +1,127 @@
 # dotFiles
 
-dwm + X11 dotfiles and a fresh-Arch bootstrap.
+Modern, responsive, and minimalist **dwm (X11)** environment with live theme switching, GPU frosted glass blur, floating TUIs, and bootstrap scripts for Arch Linux.
 
-## Fresh Arch install
+---
 
-Use `arch-setup.sh` from a normal user account on a working Arch install:
+## Features
 
-```sh
-cd ~/Public/dots/dotFiles
-./arch-setup.sh --dry-run     # inspect first
-./arch-setup.sh               # core daily-driver profile
+- **Window Manager:** Custom-patched `dwm` with dynamic gaps (`vanitygaps`), `xrdb` runtime color reloading, and dedicated floating rules for HUDs.
+- **Compositor (Picom):** Hardware-accelerated `dual_kawase` (strength 6) background blur, 8px rounded corners, and physics-eased window/notification animations.
+- **Live System Theme Switcher:** Instant system-wide switching across **DWM**, **GTK 3/4**, **Alacritty**, **Tmux**, **lf**, **Rofi**, and **Dunst** without restarting your session.
+- **Frosted Glass Launchers & Status Bar Menus:**
+  - **App Launcher / Spotlight:** Centered floating Rofi HUD with instant in-place response.
+  - **Wi-Fi (`nmtui`):** Floating network manager spawned directly on bar click.
+  - **Bluetooth (`bluetui`):** Real-time device discovery and pairing spawned on bar click.
+  - **Audio (`pulsemixer`):** Floating per-app channel control spawned on volume click.
+  - **Calendar:** Lightweight GTK3 frosted floating calendar on date click.
+  - **Power Menu (`sysact`):** Frosted session manager (`Lock`, `Sleep`, `Reboot`, `Power Off`, `Log Out`).
+
+---
+
+## Quick Start (Fresh Arch Install)
+
+Run the bootstrap installer from any regular user account with `sudo` access:
+
+```bash
+git clone https://github.com/0xiamsanj/dotFiles.git ~/dotFiles
+cd ~/dotFiles
+
+# Preview planned package installations and actions:
+./arch-setup.sh --dry-run
+
+# Run standard installation (core daily-driver setup):
+./arch-setup.sh
 ```
 
-Optional additive profiles:
+### Optional Additive Profiles:
 
-```sh
-./arch-setup.sh --profile dev
-./arch-setup.sh --profile selfhost
-./arch-setup.sh --profile media
-./arch-setup.sh --profile apps
-./arch-setup.sh --profile full
+```bash
+./arch-setup.sh --profile dev       # Development tooling (Rust, Go, Node, Docker, etc.)
+./arch-setup.sh --profile media     # Creative and media tools (OBS, GIMP, Kdenlive, etc.)
+./arch-setup.sh --profile selfhost  # Self-hosting utilities and server tools
+./arch-setup.sh --profile apps      # Desktop apps (Browsers, Telegram, Discord, etc.)
+./arch-setup.sh --profile full      # All profiles combined
 ```
 
-The installer uses `sudo` for pacman/systemd, bootstraps `yay-bin`, builds
-`dwm`, `dwmblocks`, and `pillontop` into `~/.local/bin`, deploys the configs,
-and enables the desktop services. It does not remove packages.
+---
 
-## Deploy configs only
+## Deploy Configurations Only
 
-`install.sh` only copies configuration and scripts. It does not install
-packages or build binaries.
+If you already have your base packages installed and just want to deploy the dotfiles:
 
-```sh
+```bash
+cd ~/dotFiles
+
+# Inspect what will be linked / copied:
 ./install.sh --dry-run
+
+# Deploy configs into $HOME:
 ./install.sh
 ```
 
-It preserves an existing `~/.config/zsh/envs` because that file can contain
-secrets. A fresh machine gets the sanitized repo copy.
+> **Note:** Existing environment variables (such as `~/.config/zsh/envs`) containing private tokens or secrets are preserved and never overwritten.
 
-## Package audit
+---
 
-See [`PACKAGE-AUDIT.md`](PACKAGE-AUDIT.md) for the 225-package audit, the
-core/optional split, the 50 removal candidates, and known broken references.
+## Included Theme Presets
 
-Curated lists live in `packages/`. `pacman.csv` is an old 2024 snapshot and is
-not used by the installer.
+Switch themes on-the-fly using **`Mod + Shift + F5`** or by running `theme-switcher <theme>` in a terminal:
 
-## Manual steps after setup
+| Preset | Accent | Surface Palette | Window Focus |
+| :--- | :--- | :--- | :--- |
+| **`nordic-blue`** | Frost Cyan (`#88c0d0`) | Dark Slate (`#242933`) | Pastel Blue (`#a1baf0`) |
+| **`pastel-red`** | Pastel Red (`#e06c75`) | Deep Charcoal (`#2b2d31`) | Warm Red (`#e06c75`) |
+| **`pitch-red`** | Crimson (`#ff2233`) | OLED Black (`#000000`) | Vivid Red (`#ff2233`) |
 
-1. Log out and back in, then run `startx` from tty1.
-2. Set a wallpaper with `nitrogen --set-zoom-fill --save /path/to/image`.
-3. Build the lockscreen cache with `betterlockscreen -u /path/to/image`.
-4. Import the Telegram theme once from
-   `~/.local/share/telegram-themes/nordic.tdesktop-theme`.
-5. If eww brightness does not work, make sure `/usr/bin/light` is setuid:
-   `sudo chmod u+s /usr/bin/light` (or change the script to `brightnessctl`).
-6. Edit `~/.config/mpd/mpd.conf` if `music_directory` is not
-   `/mnt/Games/Songs`, then start `mpd`/`mpc`.
-7. Authenticate Bitwarden manually. Never commit `BW_SESSION`.
+```bash
+theme-switcher nordic-blue
+theme-switcher pastel-red
+theme-switcher pitch-red
+```
+
+---
+
+## Keybindings (Modifier: `Alt` / `Mod1`)
+
+### Window Management & Workspaces
+| Keybinding | Action |
+| :--- | :--- |
+| `Mod + Return` | Open terminal (`alacritty`) |
+| `Mod + q` | Close focused window |
+| `Mod + d` | Open frosted application launcher (`rofi`) |
+| `Mod + Shift + q` | Open power & session menu (`sysact`) |
+| `Mod + Shift + F5` | Open live system theme switcher |
+| `Mod + f` | Toggle window fullscreen |
+| `Mod + Shift + Space` | Toggle window floating state |
+| `Mod + 1-9` | Switch to workspace `1-9` |
+| `Mod + Shift + 1-9` | Move focused window to workspace `1-9` |
+| `Mod + a` / `Mod + z` | Toggle vanity gaps / Increase gaps |
+
+### Top Bar Click Actions
+| Module | Left Click | Right Click | Scroll Wheel |
+| :--- | :--- | :--- | :--- |
+| **Wi-Fi** | Open floating `nmtui` | Open floating `nmtui` | — |
+| **Bluetooth** | Open floating `bluetui` | Open floating `bluetui` | — |
+| **Volume** | Open floating `pulsemixer` | Show notification details | Adjust volume `+/-` |
+| **Date** | Toggle floating calendar | Toggle floating calendar | — |
+| **Battery** | Show detailed health card | Show status summary | — |
+
+---
+
+## Post-Installation Checklist
+
+1. Log in on your display or TTY and start X11:
+   ```bash
+   startx
+   ```
+2. Set your preferred wallpaper:
+   ```bash
+   nitrogen --set-zoom-fill --save /path/to/your/wallpaper.jpg
+   ```
+3. Generate the lockscreen blur cache:
+   ```bash
+   betterlockscreen -u /path/to/your/wallpaper.jpg
+   ```
+4. Configure your music library directory (if using `mpd`):
+   Edit `music_directory` in `~/.config/mpd/mpd.conf` to match your local music folder.

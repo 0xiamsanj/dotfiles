@@ -1,7 +1,7 @@
 # DO NOT EDIT! This file will be overwritten by LXAppearance.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
-include "/home/sanj/.gtkrc-2.0.mine"
+
 gtk-color-scheme = "selected_bg_color:#4c6a92\nselected_fg_color:#eceff4"
 gtk-theme-name="Nordic"
 gtk-icon-theme-name="Tokyonight-Dark"

@@ -32,7 +32,7 @@ set cleaner ctpvclear
 
 # Dynamic TUI theme: sourced by theme-switcher
 source "~/.config/lf/theme.lfrc"
-set rulerfile '/home/sanj/.config/lf/ruler'
+set rulerfile "~/.config/lf/ruler"
 # cmds/functions
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in

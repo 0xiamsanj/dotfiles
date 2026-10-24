@@ -63,7 +63,7 @@
     ### History & Action Scripts ###
     sticky_history = yes
     history_length = 25
-    dmenu = /home/sanj/.local/bin/dmenu -p dunst:
+    dmenu = $HOME/.local/bin/dmenu -p dunst:
     browser = /usr/bin/xdg-open
     always_run_script = true
     title = Dunst
@@ -81,7 +81,7 @@
     frame_color = "#4c6a92"
     highlight = "#81a1c1"
     timeout = 4
-    default_icon = /home/sanj/.config/dunst/icons/bell.svg
+    default_icon = $HOME/.config/dunst/icons/bell.svg
 
 # Normal Urgency (Apps, Volume, Media, Notifications)
 [urgency_normal]
@@ -90,7 +90,7 @@
     frame_color = "#4c6a92"
     highlight = "#81a1c1"
     timeout = 6
-    default_icon = /home/sanj/.config/dunst/icons/bell.svg
+    default_icon = $HOME/.config/dunst/icons/bell.svg
 
 # Critical Urgency (Alerts, Low Battery, Errors)
 [urgency_critical]
@@ -99,7 +99,7 @@
     frame_color = "#4c6a92"
     highlight = "#bf616a"
     timeout = 0
-    default_icon = /home/sanj/.config/dunst/icons/warning.svg
+    default_icon = $HOME/.config/dunst/icons/warning.svg
 
 # Media Player Notifications (Subtle Rose Accent)
 [music]
@@ -108,6 +108,6 @@
     background = "#242933C8"
     frame_color = "#4c6a92"
     highlight = "#b48ead"
-    default_icon = /home/sanj/.config/dunst/icons/music.svg
+    default_icon = $HOME/.config/dunst/icons/music.svg
     format = "<span font_desc='IBM Plex Sans Bold 9.5' foreground='#88c0d0'>%s</span>\n<span font_desc='IBM Plex Sans 8.5' foreground='#d8dee9'>%b</span>"
     timeout = 5
