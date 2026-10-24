@@ -4,7 +4,7 @@ GTK_THEME="Nordic"
 GTK_ICON_THEME="Tokyonight-Dark"
 ALACRITTY_THEME="nordic.toml"
 ROFI_THEME="nordic.rasi"
-WALLPAPER="/mnt/Games/Wallpaper/wallpapers/1228098.jpg"
+WALLPAPER="$HOME/.config/wallpapers/nordic-blue.png"
 
 # DWM Bar Colors
 DWM_NORM_BG="#242933"
