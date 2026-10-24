@@ -4,7 +4,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export BW_SESSION="vJtZXk1WQERKO6KxWg8wt8ElxRNXa+0cCJqBiDRSdyRn/PK3NYYDu8b2aPlfMsvDIVTanaD60X9DxO+Yk5EOxg=="
 export MUSIC_DIR="/mnt/Games/Songs"
 export EDITOR="nvim"
 # golang path
@@ -13,7 +12,7 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 
 # bun completions
-[ -s "/home/sanj/.bun/_bun" ] && source "/home/sanj/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -27,3 +26,5 @@ export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export XDG_CONFIG_DIRS="/etc/xdg"
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 
+# fzf theme (Nordic blue)
+export FZF_DEFAULT_OPTS="--color=fg:#d8dee9,fg+:#242933,bg+:#a1baf0,hl:#a1baf0,hl+:#a1baf0,info:#81a1c1,prompt:#a1baf0,pointer:#a1baf0,marker:#a3be8c,spinner:#88c0d0,header:#81a1c1,border:#4c566a,gutter:#242933"

@@ -1,0 +1,143 @@
+/* Red + Pitch Black — Frosted Glass Spotlight HUD Theme */
+
+* {
+    bg:          #000000B0;
+    bg-input:    #121212CC;
+    line:        #ff223366;
+    fg:          #d0d0d0;
+    fg-dim:      #888888;
+    fg-bright:   #ffffff;
+    accent:      #ff2233;
+    accent-card: #28080cB8;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "IBM Plex Sans 10";
+}
+
+window {
+    transparency:     "real";
+    location:         center;
+    anchor:           center;
+    width:            700px;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    16px;
+    background-color: @bg;
+    padding:          0px;
+}
+
+mainbox {
+    background-color: transparent;
+    padding:          20px;
+    spacing:          14px;
+    children:         [ "inputbar", "listview", "mode-switcher" ];
+}
+
+inputbar {
+    background-color: @bg-input;
+    border:           1.5px;
+    border-color:     @line;
+    border-radius:    12px;
+    padding:          10px 16px;
+    spacing:          10px;
+    children:         [ "prompt", "entry" ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @accent;
+    font:             "IBM Plex Sans Bold 10";
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg-bright;
+    cursor:           text;
+    placeholder:      "Type to search...";
+    placeholder-color: @fg-dim;
+}
+
+listview {
+    background-color: transparent;
+    columns:          2;
+    lines:            8;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        true;
+    layout:           vertical;
+    spacing:          6px;
+    padding:          4px 0px;
+}
+
+scrollbar {
+    width:            5px;
+    border:           0px;
+    handle-width:     5px;
+    handle-color:     @accent;
+    border-radius:    4px;
+    background-color: #1a1a1a88;
+    margin:           0px 0px 0px 8px;
+}
+
+element {
+    background-color: transparent;
+    padding:          8px 12px;
+    border-radius:    8px;
+    spacing:          10px;
+    orientation:      horizontal;
+    cursor:           pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @accent-card;
+    border:           1.5px;
+    border-color:     @accent;
+    text-color:       @fg-bright;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             26px;
+    cursor:           inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+    cursor:           inherit;
+}
+
+mode-switcher {
+    background-color: transparent;
+    spacing:          8px;
+}
+
+button {
+    background-color: @bg-input;
+    text-color:       @fg-dim;
+    border-radius:    8px;
+    padding:          6px 14px;
+    cursor:           pointer;
+}
+
+button selected {
+    background-color: @accent;
+    text-color:       #ffffff;
+    font:             "IBM Plex Sans Bold 9.5";
+}
+
+error-message {
+    background-color: @bg;
+    border:           2px;
+    border-color:     #ff2233;
+    border-radius:    14px;
+    padding:          16px;
+    text-color:       @fg-bright;
+}

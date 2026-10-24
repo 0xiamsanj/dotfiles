@@ -1,0 +1,27 @@
+#!/bin/sh
+# bemenu-run, themed to match the desktop (Nordic blue).
+# Lists PATH executables and runs the pick.
+# Revert to the stock binary with: rm ~/.local/bin/bemenu-run
+
+list_path() {
+	IFS=:
+	for d in $PATH; do
+		[ -d "$d" ] && find "$d" -maxdepth 1 -type f -executable -printf '%f\n' 2>/dev/null
+	done
+}
+
+sel="$(list_path | sort -u | bemenu \
+	-i -c -W 0.45 -B 2 -M 12 \
+	--fn "JetBrainsMonoNL Nerd Font 10" \
+	--tb "#242933" --tf "#eceff4" \
+	--fb "#242933" --ff "#d8dee9" \
+	--cb "#a1baf0" --cf "#242933" \
+	--nb "#2e3440" --nf "#d8dee9" \
+	--hb "#a1baf0" --hf "#242933" \
+	--ab "#242933" --af "#d8dee9" \
+	--sb "#a1baf0" --sf "#242933" \
+	--scb "#a1baf0" --scf "#242933" \
+	--fbb "#242933" --fbf "#d8dee9" \
+	--bdr "#4c566a")"
+
+[ -n "$sel" ] && exec "$sel"

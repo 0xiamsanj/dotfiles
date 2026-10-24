@@ -1,0 +1,5 @@
+#!/bin/sh
+# dmenu -> rofi bridge, so every dmenu-based script in this setup keeps
+# working while being rendered by rofi in dmenu mode (Nordic blue theme).
+# Revert to the real dmenu with: rm ~/.local/bin/dmenu
+exec rofi -dmenu "$@"

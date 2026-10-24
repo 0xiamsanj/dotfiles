@@ -1,0 +1,67 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-p": ["editor::Project Panel"], // Similar to your Ctrl-p to open the project panel
+
+      // Join lines with `J`
+      "j": ["editor::JoinLines"],
+
+      // Navigation with `J`, `K`, `Ctrl+d`, `Ctrl+u`
+      "ctrl-d": ["editor::ScrollDownCenter"], // Scroll down and center
+      "ctrl-u": ["editor::ScrollUpCenter"], // Scroll up and center
+
+      // Search next/previous with `n` and `N`
+      "n": ["editor::FindNext"],
+      "shift-n": ["editor::FindPrevious"],
+
+      // Copy and delete to clipboard (`y` for copy, `d` for delete)
+      "space y": ["editor::CopySelection"],
+      "space d": ["editor::DeleteSelection"],
+
+      // Move selected lines with `J`, `K` (Visual Mode) — Move line down/up
+      "shift-j": ["editor::MoveLinesDown"],
+      "shift-k": ["editor::MoveLinesUp"],
+
+      // Paste with `p` (similar to your leader+p)
+      "space p": ["editor::Paste"],
+
+      // Escape with `Ctrl+c` in insert mode
+      "ctrl-c": ["editor::Escape"],
+
+      // Format code with `space f` (same as your LSP format)
+      "space f": ["editor::FormatDocument"],
+
+      // Next/previous error with `Ctrl+k`, `Ctrl+j`
+      "ctrl-k": ["editor::GoToNextErrorOrWarning"],
+      "ctrl-j": ["editor::GoToPreviousErrorOrWarning"],
+
+      // `space x` to run chmod command (for executable permissions)
+      "space x": [
+        "editor::RunCommand",
+        { "command": "chmod +x %", "silent": true }
+      ],
+
+      // Open specific config file (e.g., Packer file) with `space vpp`
+      "space vpp": [
+        "editor::OpenFile",
+        { "file": "~/.dotfiles/nvim/.config/nvim/lua/theprimeagen/packer.lua" }
+      ],
+
+      // Execute `CellularAutomaton` with `space mr`
+      "space mr": [
+        "editor::RunCommand",
+        { "command": "CellularAutomaton make_it_rain" }
+      ],
+
+      // Re-source Vim config with `space <space>`
+      "space space": ["editor::SourceVimConfig"] // This command will depend on Zed’s support for sourcing configurations
+    }
+  }
+]

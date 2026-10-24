@@ -1,0 +1,31 @@
+# ~/.config/betterlockscreenrc
+# theme: Nordic blue (colors are RRGGBBAA hex, no '#')
+
+loginbox=24293399
+loginshadow=24293300
+locktext="Type password to unlock..."
+font="JetBrainsMonoNL Nerd Font"
+
+ringcolor=a1baf0ff
+insidecolor=24293300
+separatorcolor=24293300
+ringvercolor=a1baf0ff
+insidevercolor=24293300
+ringwrongcolor=bf616aff
+insidewrongcolor=bf616a55
+
+timecolor=a1baf0ff
+time_format="%I:%M %p"
+greetercolor=81a1c1ff
+layoutcolor=81a1c1ff
+keyhlcolor=a1baf0ff
+bshlcolor=bf616aff
+
+veriftext="Verifying..."
+verifcolor=a1baf0ff
+wrongtext="Failure!"
+wrongcolor=bf616aff
+modifcolor=a1baf0ff
+
+bgcolor=242933ff
+wallpaper_cmd="nitrogen --restore"

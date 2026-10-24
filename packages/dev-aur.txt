@@ -1,0 +1,11 @@
+# Development AUR packages
+# Installed by arch-setup.sh --profile dev.
+
+antigravity
+antigravity-ide
+microsoft-openjdk-17-bin
+pi-agent-rust
+postman-bin
+redisinsight
+sonarqube-bin
+visual-studio-code-bin

@@ -1,0 +1,8 @@
+#!/bin/sh
+# rofi-dmenu — launcher bound to the Mod+d key combo in dwm.
+# Lists PATH executables (dmenu_run equivalent) and runs the pick via rofi.
+# Themed by ~/.config/rofi/ (Nordic blue).
+
+# NB: rofi launches the pick natively in -show run mode. Never pipe into
+# `exec rofi`: exec inside a pipeline discards rofi's output entirely.
+exec rofi -show run "$@"

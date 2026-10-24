@@ -7,7 +7,7 @@ case "$(echo -e "Shutdown\nRestart\nLogout\nSuspend\nLock" | dmenu \
         Restart) exec systemctl reboot;;
         Logout) kill -HUP $XDG_SESSION_PID;;
         Suspend) exec systemctl suspend;;
-        Lock) exec betterlockscreen -l dimblur;;
+        Lock) exec lockscreen;;
 esac
 
 #betterlockscreen -u Pictures/Wallpapers/batman.jpg --blur 1.0

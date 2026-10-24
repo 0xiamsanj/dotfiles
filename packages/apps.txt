@@ -1,0 +1,16 @@
+# Optional desktop apps (official repositories)
+# Installed by arch-setup.sh --profile apps.
+
+bitwarden
+discord
+glow
+inkscape
+keepassxc
+libreoffice-fresh
+ncdu
+obsidian
+playerctl
+speedtest-cli
+superfile
+thunderbird
+zed

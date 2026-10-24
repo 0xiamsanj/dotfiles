@@ -67,12 +67,14 @@ static const struct arg args[] = {
 	/* function format          argument */
 	/* { run_command, " [%s] - ", "uname -r" },*/
 	{ run_command, " %s ", "~/.local/bin/music" },
-	{ run_command, " [%s] ", "~/.local/bin/wifi" },
+	/*{ run_command, "%s", "~/.local/bin/spotify" },*/
+	{ run_command, " %s │", "~/.local/bin/wifi" },
+	{ run_command, " %s │", "~/.local/bin/bluetooth" },
     /*{ netspeed_rx, " [ %sB/s", "wlan0" },*/
 	/*{ netspeed_tx, " -  %sB/s] - ", "wlan0" },*/
-	{ run_command, "%s ", "~/.local/bin/volume" },
-	{ run_command, "%s ", "~/.local/bin/battery" },
+	{ run_command, " %s │", "~/.local/bin/volume" },
+	{ run_command, " %s │", "~/.local/bin/battery" },
 	/* { battery_perc,  "[%s", "BAT0" }, */
 	/* { battery_state,  "%s] - ", "BAT0" }, */
-	{ run_command, "%s", "~/.local/bin/clock" },
+	{ run_command, " %s ", "~/.local/bin/clock" },
 };

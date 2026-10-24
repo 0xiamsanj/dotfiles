@@ -1,0 +1,136 @@
+/* Blackout — gray monochrome rofi theme.
+ * Floating card layout: input pill on top, results in the middle,
+ * mode switcher tabs at the bottom. Selected = gray block + light text. */
+
+* {
+    bg:        #1c1c1c;          /* card surface */
+    bg-input:  #262626;          /* input card */
+    line:      #333333;          /* borders */
+    fg:        #c8c8c8;
+    fg-dim:    #6a6a6a;
+    fg-bright: #eeeeee;
+    block:     #444444;          /* selected pill */
+
+    background-color: transparent;
+    text-color:       @fg;
+    spacing:          6px;
+}
+
+window {
+    transparency:     "real";
+    location:         center;
+    border:           0px;
+    padding:          24px;
+    background-color: transparent;
+    width:            620px;
+    height:           520px;
+}
+
+mainbox {
+    background-color: @bg;
+    border:           2px;
+    border-color:     @line;
+    border-radius:    12px;
+    padding:          14px;
+    spacing:          10px;
+    children:         [ "inputbar", "listview", "mode-switcher" ];
+}
+
+inputbar {
+    background-color: @bg-input;
+    border:           1px;
+    border-color:     @line;
+    border-radius:    8px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ "prompt", "entry" ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @fg-bright;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg;
+    cursor:           text;
+    placeholder:      "Search…";
+    placeholder-color: @fg-dim;
+}
+
+overlay {
+    background-color: @block;
+    text-color:       @fg-bright;
+    border-radius:    6px;
+    padding:          2px 8px;
+}
+
+listview {
+    background-color: transparent;
+    columns:          1;
+    lines:            8;
+    fixed-height:     true;
+    spacing:          4px;
+    scrollbar:        false;
+    padding:          4px 0;
+}
+
+element {
+    background-color: transparent;
+    padding:          8px 10px;
+    border-radius:    8px;
+    spacing:          10px;
+}
+
+element normal.normal    { background-color: transparent; }
+element normal.active    { background-color: transparent; }
+element normal.urgent    { background-color: transparent; }
+element alternate.normal { background-color: #00000000; }
+element selected.normal  { background-color: @block; }
+element selected.active  { background-color: @block; }
+element selected.urgent  { background-color: @block; }
+
+element-icon {
+    background-color: transparent;
+    size:             1.4em;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal text,
+element selected.active text,
+element selected.urgent text {
+    text-color: @fg-bright;
+    vertical-align: 0.5;
+}
+
+mode-switcher {
+    background-color: transparent;
+    spacing:          6px;
+}
+
+button {
+    background-color: #262626;
+    text-color:       @fg-dim;
+    border-radius:    8px;
+    padding:          8px 16px;
+    cursor:           pointer;
+}
+
+button selected {
+    background-color: @block;
+    text-color:       @fg-bright;
+}
+
+error-message {
+    background-color: @bg;
+    border:           2px;
+    border-color:     @line;
+    border-radius:    12px;
+    padding:          16px;
+    text-color:       @fg-bright;
+}

@@ -1,0 +1,27 @@
+# Development toolchain and local service tooling (official repositories)
+# Installed by arch-setup.sh --profile dev (core is included automatically).
+
+android-tools
+bun
+chrpath
+clang
+cmake
+dbeaver
+docbook-xsl
+doxygen
+gdb
+go
+gobject-introspection
+gtk-doc
+kotlin
+meson
+protobuf
+python-dbusmock
+python-pip
+python-pytest
+rainfrog
+rustup
+uv
+valgrind
+yasm
+zig

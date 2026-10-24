@@ -1,0 +1,36 @@
+# ~/.config/zathura/zathurarc — Nordic blue (matches dwm / rofi / mpv)
+
+# font & chrome
+set font "IBM Plex Mono 9"
+set statusbar-h-padding 8
+set statusbar-v-padding 6
+
+# UI colors
+set default-bg "#242933"
+set default-fg "#d8dee9"
+set statusbar-bg "#2e3440"
+set statusbar-fg "#d8dee9"
+set inputbar-bg "#2e3440"
+set inputbar-fg "#eceff4"
+set notification-bg "#2e3440"
+set notification-fg "#eceff4"
+set notification-warning-bg "#2e3440"
+set notification-warning-fg "#ebcb8b"
+set notification-error-bg "#2e3440"
+set notification-error-fg "#bf616a"
+set highlight-color "#4c566a"
+set highlight-active-color "#4c6a92"
+
+# dark recolor: read PDFs like dark mode (light pages -> dark blue-gray)
+set recolor true
+set recolor-lightcolor "#242933"
+set recolor-darkcolor "#d8dee9"
+set recolor-keephue false
+
+# behavior
+set selection-clipboard clipboard
+set adjust-open "best-fit"
+set pages-per-row 1
+set scroll-step 100
+set smooth-scroll true
+set zoom-min 10

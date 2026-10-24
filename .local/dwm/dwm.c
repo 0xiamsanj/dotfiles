@@ -105,7 +105,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow, issticky;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow, issticky, isontop;
 	pid_t pid;
 	Client *next;
 	Client *snext;
@@ -160,6 +160,7 @@ typedef struct {
 	int isterminal;
 	int noswallow;
 	int monitor;
+	int isontop;
 } Rule;
 
 /* Xresources preferences */
@@ -350,6 +351,7 @@ applyrules(Client *c)
 
 	/* rule matching */
 	c->isfloating = 0;
+	c->isontop = 0;
 	c->tags = 0;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
@@ -364,6 +366,8 @@ applyrules(Client *c)
 			c->isterminal = r->isterminal;
 			c->isfloating = r->isfloating;
 			c->noswallow  = r->noswallow;
+			if (r->isontop)
+				c->isontop = 1;
 			c->tags |= r->tags;
 			if ((r->tags & SPTAGMASK) && r->isfloating) {
 				c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
@@ -1606,6 +1610,10 @@ restack(Monitor *m)
 				wc.sibling = c->win;
 			}
 	}
+	/* isontop windows (floating overlays) always come back to the top */
+	for (c = m->stack; c; c = c->snext)
+		if (c->isontop && ISVISIBLE(c))
+			XRaiseWindow(dpy, c->win);
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 }

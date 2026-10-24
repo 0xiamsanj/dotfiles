@@ -1,0 +1,13 @@
+# Optional desktop AUR packages
+# Installed by arch-setup.sh --profile apps.
+
+ani-cli
+anydesk-bin
+brave-bin
+figma-linux
+helium-browser-bin
+htop-vim
+localsend-bin
+neofetch
+zen-browser-bin
+zennotes-bin

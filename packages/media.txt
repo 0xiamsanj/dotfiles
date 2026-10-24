@@ -1,0 +1,12 @@
+# Optional media stack (official repositories)
+# Installed by arch-setup.sh --profile media.
+
+cava
+gst-libav
+gst-plugins-bad
+gst-plugins-good
+gst-plugins-ugly
+qbittorrent
+vlc
+vlc-plugins-all
+yazi

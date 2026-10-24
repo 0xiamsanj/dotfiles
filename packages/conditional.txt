@@ -1,0 +1,8 @@
+# Boot/disk packages that depend on the machine layout.
+# Installed only with arch-setup.sh --with-boot.
+# grub is only appropriate if GRUB is the bootloader.
+dosfstools
+efibootmgr
+grub
+ntfs-3g
+os-prober

@@ -1,4 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+# Shows the wifi for the default interface; click opens nmtui.
+
+case $BLOCK_BUTTON in
+	1) setsid -f alacritty --class floatterm -T "nmtui" -o "window.dimensions.columns=70" -o "window.dimensions.lines=24" -e nmtui >/dev/null 2>&1 ;;
+	3) setsid -f alacritty --class floatterm -T "nmtui" -o "window.dimensions.columns=70" -o "window.dimensions.lines=24" -e nmtui >/dev/null 2>&1 ;;
+esac
 
 # Function to get the network status
 get_network_status() {
@@ -11,7 +18,9 @@ get_network_status() {
             # Get the SSID of the Wi-Fi network
             ssid=$(iwgetid -r)
             if [ -n "$ssid" ]; then
-                echo "  $ssid"
+                short=$(printf '%s' "$ssid" | cut -c1-10)
+                [ "${#ssid}" -gt 10 ] && short="${short}…"
+                echo "  $short"
             else
                 echo "  Connected"
             fi
@@ -24,4 +33,4 @@ get_network_status() {
 }
 
 # Display the network status
-echo "$(get_network_status)"
+echo "  $(get_network_status)"

@@ -1,0 +1,33 @@
+# Alacritty theme: Red + Pitch Black
+
+[colors.primary]
+background = "#000000"
+foreground = "#e0e0e0"
+
+[colors.cursor]
+text = "#000000"
+cursor = "#ff2233"
+
+[colors.selection]
+text = "#ffffff"
+background = "#880011"
+
+[colors.normal]
+black = "#1a1a1a"
+red = "#ff2233"
+green = "#22cc66"
+yellow = "#ffcc00"
+blue = "#3388ff"
+magenta = "#cc3388"
+cyan = "#22ccdd"
+white = "#dddddd"
+
+[colors.bright]
+black = "#333333"
+red = "#ff4455"
+green = "#44ee88"
+yellow = "#ffee22"
+blue = "#55aaff"
+magenta = "#ee55aa"
+cyan = "#44eedd"
+white = "#ffffff"

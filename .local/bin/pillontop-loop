@@ -1,0 +1,7 @@
+#!/bin/sh
+# pillontop-loop — keep the Wispr Flow pill daemon alive.
+# pillontop exits when dwm restarts (or crashes); this loop respawns it.
+while :; do
+    "$HOME/.local/bin/pillontop"
+    sleep 2
+done

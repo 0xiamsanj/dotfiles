@@ -1,22 +1,19 @@
 #!/bin/sh
 
-# Prints the current volume or 🔇 if muted.
+# Prints the current volume, 󰝟 if muted, and caps display at 100%.
 
-#case $BLOCK_BUTTON in
-	#1) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;;
-	#2) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
-	#4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ ;;
-	#5) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- ;;
-	#3) notify-send "📢 Volume module" "\- Shows volume 🔊, 🔇 if muted.
-#- Middle click to mute.
-#- Scroll to change." ;;
-	#6) "$TERMINAL" -e "$EDITOR" "$0" ;;
-#esac
+case $BLOCK_BUTTON in
+	1) setsid -f alacritty --class floatterm -T "pulsemixer" -o "window.dimensions.columns=72" -o "window.dimensions.lines=20" -e pulsemixer >/dev/null 2>&1 ;;
+	2) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;  # middle click mutes
+	4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ ;;   # scroll up louder
+	5) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- ;;   # scroll down quieter
+	3) notify-send "Volume Module" "Left click: pulsemixer\nMiddle click: mute\nScroll: adjust volume" ;;
+esac
 
 vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
 
-# If muted, print 🔇 and exit.
-[ "$vol" != "${vol%\[MUTED\]}" ] && echo [󰝟] && exit
+# If muted, print 󰝟 and exit.
+[ "$vol" != "${vol%\[MUTED\]}" ] && echo 󰝟 && exit
 
 vol="${vol#Volume: }"
 
@@ -29,6 +26,9 @@ split() {
 
 vol="$(printf "%.0f" "$(split "$vol" ".")")"
 
+# Cap displayed volume at 100% (waterpctl can go higher than 100%).
+[ "$vol" -gt 100 ] && vol=100
+
 case 1 in
 	$((vol >= 70)) ) icon=" " ;;
 	$((vol >= 30)) ) icon="" ;;
@@ -36,4 +36,4 @@ case 1 in
 	* ) echo 󰝟 && exit ;;
 esac
 
-echo "[$icon $vol%]"
+echo "$icon $vol%"

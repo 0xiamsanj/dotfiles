@@ -1,0 +1,40 @@
+/* Nordic — ZenNotes blue-gray theme.
+ * Tokens are space-separated RGB triplets. Dark only. */
+
+:root {
+  color-scheme: dark;
+  --z-bg: 36 41 51;
+  --z-bg-softer: 46 52 64;
+  --z-bg-1: 59 66 82;
+  --z-bg-2: 67 76 94;
+  --z-bg-3: 67 76 94;
+  --z-bg-4: 76 86 106;
+  --z-fg: 216 222 233;
+  --z-fg-1: 229 233 240;
+  --z-fg-2: 129 161 193;
+  --z-grey-2: 129 161 193;
+  --z-grey-1: 94 129 172;
+  --z-grey-0: 76 86 106;
+  --z-grey-dim: 76 86 106;
+  --z-accent: 161 186 240;
+  --z-accent-soft: 136 192 208;
+  --z-accent-muted: 94 129 172;
+  --z-red: 191 97 106;
+  --z-green: 163 190 140;
+  --z-yellow: 235 203 139;
+  --z-blue: 129 161 193;
+  --z-purple: 180 142 173;
+  --z-aqua: 136 192 208;
+  --z-shadow: 0 0 0;
+  --z-glass-a1: 0.62;
+  --z-glass-a2: 0.5;
+  --z-glass-a3: 0.35;
+  --z-glass-a4: 0.25;
+}
+
+
+/* readable text selection */
+::selection {
+  background: rgb(76 106 146);
+  color: rgb(236 239 244);
+}

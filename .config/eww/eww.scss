@@ -1,0 +1,247 @@
+// eww.scss
+
+// Palette — Nordic blue (dark blue-gray surfaces, pastel blue accent)
+$bg: #242933;
+$bg2: #2e3440;
+$bg3: #3b4252;
+$grey: #4c566a;
+$grey2: #81a1c1;
+$fg: #d8dee9;
+$fg2: #eceff4;
+$dim: #81a1c1;
+$accent: #a1baf0;
+$selection: #4c6a92;
+$red: #bf616a;
+$red-dark: #2e3440;
+$blue: #a1baf0;
+$off-blue: #88c0d0;
+$blue-dark: #242933;
+$yellow: #ebcb8b;
+$yellow-dark: #2e3440;
+$active: $blue;
+$active-square: $accent;
+$corner: 4px;
+
+.closer{
+  background-color: rgba(0, 0, 0, 0.0); 
+}
+
+.control_center {
+  border-radius: $corner;
+  background-color: transparent;
+  color: $fg;
+}
+
+.slate-container {
+  background-color: $bg;
+  border: 1px solid $bg3;
+  padding: 20px;
+}
+
+.perform .icon {
+  color: $red;
+  background-color: $red-dark;
+}
+
+.section-title {
+  color: $dim;
+  font-weight: bold;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+// --- BUTTONS ---
+.toggle-btn-wrapper {
+  background-color: $bg3;
+  border-radius: $corner;
+  padding: 12px; // 6+12 = 18
+}
+.btn-toggle {
+  all: unset;
+  padding: 6px; // 6+12 = 18
+  transition: 200ms;
+  font-weight: 400;
+  color: $fg;
+  font-family: "JetBrainsMonoNL Nerd Font";
+}
+.content-btn-toggle {
+  margin-right: 12px;
+}
+.btn-toggle-square {
+  all: unset;
+  background-color: $bg3;
+  border: 0px solid $bg3;
+  transition: 200ms;
+  font-weight: normal;
+  color: $fg;
+  border-radius: $corner;
+  font-family: "JetBrainsMonoNL Nerd Font";
+}
+.btn-toggle-square .icon-alt {
+  font-size: 1rem;
+  color: $accent;
+}
+.btn-toggle-square .label {
+  font-size: 0.775rem;
+  color: $accent;
+}
+.btn-toggle overlay:first-child {
+  margin-right: 1rem;
+}
+.control-section{
+    .labels {
+    }
+    .label1 {
+        font-size: 0.95rem;
+    }.label2 {
+        font-size: 0.725rem;
+        color: $accent;
+    }
+}
+
+.btn-toggle:hover .carrot {
+  opacity: 1;
+}
+.icon {
+  font-size: 10px;
+  background: $grey;
+  border-radius: 50%;
+  margin-right: 1rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  color: $accent;
+  font-family: "JetBrainsMonoNL Nerd Font";
+}
+.icon label, .icon-alt {
+  font-family: "JetBrainsMonoNL Nerd Font";
+  padding: 0.5rem;
+}
+
+.active .icon {
+  background: $selection;
+  color: $fg2;
+}
+
+.active-square {
+//  background: $dim;
+  background: $yellow-dark;
+}
+.active-square .icon-alt, .active-square .label {
+//  color: $fg;
+  color: $yellow;
+}
+
+.music-player {
+  //margin-top: 20px;
+}
+
+// --- SLIDERS ---
+.sliders-section {
+    background: $bg3;
+    border-radius: $corner;
+    padding: 10px 18px;
+}
+.slider-box {
+  margin: 8px -12px -4px 0;
+}
+
+.slider-label {
+    font-size: 0.775rem;
+    font-weight: normal;
+}
+
+.slider-box {
+    font-family: "JetBrainsMonoNL Nerd Font";
+    padding: 0;
+scale {
+  trough {
+    all: unset;
+    background-color: $bg2;
+    border-radius: 10px;
+    min-width: 150px; // Width of the slider
+    padding-left: 9px;
+    min-height: 16px;
+  }
+
+  highlight {
+    all: unset;
+    background-color: $accent;
+    border-radius: 10px;
+    margin-left: -20px;
+  }
+
+  slider { // the knob
+    all: unset;
+    background-color: $fg;
+    border-radius: 10px;
+    min-height: 18px;
+    margin: -0px 0 -0px -20px;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.5);
+    transition: 100ms;
+  }
+
+  slider:active {
+    background-color: $fg2;
+  }
+}
+}
+
+.carrot {
+  opacity: 0;
+  transition: 100ms;
+  font-size: 1rem;
+  color: $accent;
+  background-image: linear-gradient(to right, 
+  rgba(33, 33, 33, 0),
+  $bg3 1.5rem
+  );
+  padding-left: 2rem;
+}
+
+image {
+  border-radius: $corner;
+}
+.rounded-image {
+  min-width: 96px;
+  min-height: 96px;
+  border-radius: $corner;
+  background-color: $bg2;
+}
+
+.music-section {
+  padding: 18px;
+  background: $bg3;
+  border-radius: $corner;
+  font-family: "JetBrainsMonoNL Nerd Font";
+}
+.forward {
+  color: $grey2;
+}
+.play, .forward {
+  font-family: "JetBrainsMonoNL Nerd Font";
+  font-size: 0.875rem;
+}
+.active-icon {
+  background: none;
+  color: $fg;
+}
+.music-labels {
+  margin-left: 1.25rem;
+  margin-right: 1rem;
+}
+.music-title {
+  font-weight: normal;
+  font-size: 1rem;
+}
+.music-artist {
+  font-weight: 400;
+  color: $accent;
+  font-size: 0.825rem;
+}
+
+.toggle-btn-wrapper, .btn-toggle-square, .music-section, .sliders-section {
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.25);
+}
+button {
+  all: unset;
+}

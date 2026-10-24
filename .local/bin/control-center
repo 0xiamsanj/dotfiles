@@ -1,0 +1,15 @@
+#!/bin/sh
+# control-center — toggle the eww control-center panel on dwm (X11).
+# Keybind: Mod+Shift+Escape.
+
+EW=eww
+command -v eww >/dev/null 2>&1 || exit 1
+
+"$EW" ping >/dev/null 2>&1 || {
+	setsid -f "$EW" daemon >/dev/null 2>&1
+	sleep 1
+}
+
+# 'closer' is an invisible fullscreen click-to-dismiss layer; open it FIRST so
+# the panel stacks on top and remains clickable.
+exec "$EW" open-many closer control_center_dwm --toggle

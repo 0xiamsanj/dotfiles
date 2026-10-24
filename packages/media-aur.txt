@@ -1,0 +1,5 @@
+# Optional media AUR packages
+# Installed by arch-setup.sh --profile media.
+
+fladder-bin
+moonfin-bin

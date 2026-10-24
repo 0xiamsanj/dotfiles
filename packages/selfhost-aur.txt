@@ -1,0 +1,4 @@
+# Self-hosted AUR packages
+# Installed by arch-setup.sh --profile selfhost.
+
+cloudflared-bin

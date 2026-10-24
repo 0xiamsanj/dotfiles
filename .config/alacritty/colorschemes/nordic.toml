@@ -1,24 +1,33 @@
-
-[colors.bright]
-black = "0x444b6a"
-blue = "0x7da6ff"
-cyan = "0x0db9d7"
-green = "0xb9f27c"
-magenta = "0xbb9af7"
-red = "0xff7a93"
-white = "0xacb0d0"
-yellow = "0xff9e64"
-
-[colors.normal]
-black = "0x32344a"
-blue = "0x7aa2f7"
-cyan = "0x449dab"
-green = "0x9ece6a"
-magenta = "0xad8ee6"
-red = "0xf7768e"
-white = "0x787c99"
-yellow = "0xe0af68"
+# Nordic blue — dark blue-gray with pastel blue accent.
 
 [colors.primary]
-background = "0x000009"
-foreground = "0xa9b1d6"
+background = "#242933"
+foreground = "#d8dee9"
+
+[colors.cursor]
+text = "#242933"
+cursor = "#a1baf0"
+
+[colors.selection]
+text = "#eceff4"
+background = "#4c6a92"
+
+[colors.normal]
+black = "#3b4252"
+red = "#bf616a"
+green = "#a3be8c"
+yellow = "#ebcb8b"
+blue = "#81a1c1"
+magenta = "#b48ead"
+cyan = "#88c0d0"
+white = "#e5e9f0"
+
+[colors.bright]
+black = "#4c566a"
+red = "#bf616a"
+green = "#a3be8c"
+yellow = "#ebcb8b"
+blue = "#a1baf0"
+magenta = "#b48ead"
+cyan = "#8fbcbb"
+white = "#eceff4"

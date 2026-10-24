@@ -1,0 +1,12 @@
+[color]
+background = '#242933'
+foreground = '#d8dee9'
+foreground_bold = '#eceff4'
+
+# Nordic blue gradient
+gradient = 1
+gradient_color_1 = '#4c566a'
+gradient_color_2 = '#81a1c1'
+gradient_color_3 = '#a1baf0'
+
+blend_direction = 'up'

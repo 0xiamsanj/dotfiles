@@ -1,0 +1,130 @@
+#!/bin/sh
+# dmenurecord — screen / audio / webcam recorder driven by dmenu(→rofi) menus.
+# Usage:
+#   dmenurecord             ask what to record
+#   dmenurecord screencast  screen + system audio (two files)
+#   dmenurecord video       screen only
+#   dmenurecord selected    rectangular area (drag with slop)
+#   dmenurecord audio       system audio only
+#   dmenurecord webcam      webcam (640x480)
+#   dmenurecord webcamhi    webcam (720p)
+#   dmenurecord kill        stop the current recording
+# Files are written to ~/Videos. Requires: ffmpeg, dmenu, xrandr, slop.
+
+DIR="$HOME/Videos"
+mkdir -p "$DIR"
+
+getdim() { xrandr | awk '/ current/ {gsub(",",""); print $8"x"$10; exit}'; }
+getdisp() { d="${DISPLAY:-:0}"; case "$d" in *:*.*) echo "$d" ;; *) echo "$d.0" ;; esac; }
+
+updateicon() {
+	echo "$1" > /tmp/recordingicon
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	}
+
+killrecording() {
+	recpid="$(cat /tmp/recordingpid)"
+	kill -15 "$recpid"
+	rm -f /tmp/recordingpid
+	updateicon ""
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	}
+
+screencast() {
+	ffmpeg -y \
+		-f x11grab \
+		-framerate 30 \
+		-s "$(getdim)" \
+		-i "$(getdisp)" \
+		-r 24 \
+		-use_wallclock_as_timestamps 1 \
+		-f pulse -thread_queue_size 1024 -i '@DEFAULT_MONITOR@' \
+		-c:v h264 -crf 0 -preset ultrafast -c:a flac \
+		"$DIR/screencast-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	updateicon "⏺ 🎙"
+	}
+
+video() { ffmpeg \
+	-f x11grab \
+	-framerate 30 \
+	-s "$(getdim)" \
+	-i "$(getdisp)" \
+	-c:v libx264 -qp 0 -r 30 \
+	"$DIR/video-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	updateicon "⏺"
+	}
+
+webcamhidef() { ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 1280x720 \
+	"$DIR/webcam-hd-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	updateicon "🎥"
+	}
+
+webcam() { ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 640x480 \
+	"$DIR/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	updateicon "🎥"
+	}
+
+audio() {
+	ffmpeg \
+		-f pulse -i '@DEFAULT_MONITOR@' \
+		-c:a flac \
+		"$DIR/audio-$(date '+%y%m%d-%H%M-%S').flac" &
+	echo $! > /tmp/recordingpid
+	updateicon "🎙"
+	}
+
+videoselected() {
+	POS=$(slop -f "%x %y %w %h" -t 1) || exit 0
+	[ -n "$POS" ] || exit 0
+	X=$(echo "$POS" | awk '{print $1}')
+	Y=$(echo "$POS" | awk '{print $2}')
+	W=$(echo "$POS" | awk '{print $3}')
+	H=$(echo "$POS" | awk '{print $4}')
+	ffmpeg \
+		-f x11grab \
+		-framerate 30 \
+		-video_size "$W"x"$H" \
+		-i "$(getdisp)+$X,$Y" \
+		-c:v libx264 -qp 0 -r 30 \
+		"$DIR/region-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	updateicon "⏺"
+	}
+
+askrecording() {
+	choice=$(printf 'screencast\nvideo\nselected area\naudio\nwebcam\nwebcam (hi-def)' | dmenu -i -p 'Record:')
+	case "$choice" in
+		screencast) screencast ;;
+		video) video ;;
+		*selected*) videoselected ;;
+		audio) audio ;;
+		webcam) webcam ;;
+		*hi-def*) webcamhidef ;;
+	esac
+	}
+
+asktoend() {
+	response=$(printf 'No\nYes' | dmenu -i -p 'Recording still active. End it?')
+	[ "$response" = "Yes" ] && killrecording
+	}
+
+case "$1" in
+	screencast) screencast ;;
+	video) video ;;
+	selected) videoselected ;;
+	audio) audio ;;
+	webcam) webcam ;;
+	webcamhi) webcamhidef ;;
+	kill) killrecording ;;
+	*) ([ -f /tmp/recordingpid ] && asktoend && exit) || askrecording ;;
+esac

@@ -1,0 +1,16 @@
+# Core AUR packages (daily workflow)
+# Installed by arch-setup.sh --profile core.
+
+betterlockscreen
+blueberry
+eww-git
+i3lock-color
+light
+nitrogen
+nordic-theme
+opencode-desktop-bin
+telegram-desktop-bin
+thorium-browser-bin
+tokyonight-gtk-theme-git
+ttf-segoe-ui-variable
+wispr-flow-appimage

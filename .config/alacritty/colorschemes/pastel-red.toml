@@ -1,0 +1,33 @@
+# Alacritty theme: Gray + Pastel Red
+
+[colors.primary]
+background = "#2b2d31"
+foreground = "#dcddde"
+
+[colors.cursor]
+text = "#2b2d31"
+cursor = "#e06c75"
+
+[colors.selection]
+text = "#f2d5d8"
+background = "#78424a"
+
+[colors.normal]
+black = "#313338"
+red = "#e06c75"
+green = "#98c379"
+yellow = "#e5c07b"
+blue = "#61afef"
+magenta = "#c678dd"
+cyan = "#56b6c2"
+white = "#abb2bf"
+
+[colors.bright]
+black = "#4e5058"
+red = "#be5046"
+green = "#98c379"
+yellow = "#d19a66"
+blue = "#61afef"
+magenta = "#c678dd"
+cyan = "#56b6c2"
+white = "#ffffff"

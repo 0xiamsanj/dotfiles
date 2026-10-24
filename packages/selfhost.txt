@@ -1,0 +1,23 @@
+# Self-hosted services and virtualization (official repositories)
+# Installed by arch-setup.sh --profile selfhost (core is included automatically).
+# Services are enabled only when this profile is selected.
+
+copyparty
+croc
+dnsmasq
+docker
+docker-compose
+edk2-ovmf
+jellyfin-server
+jellyfin-web
+kafka
+libvirt
+openssh
+postgresql
+qemu-full
+rclone
+swtpm
+syncthing
+tailscale
+ufw
+virt-manager

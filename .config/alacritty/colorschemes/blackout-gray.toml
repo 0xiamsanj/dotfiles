@@ -1,0 +1,32 @@
+# blackout-gray — grayscale terminal scheme
+[colors.primary]
+background = "#131313"
+foreground = "#c8c8c8"
+
+[colors.cursor]
+text = "#131313"
+cursor = "#eeeeee"
+
+[colors.selection]
+background = "#444444"
+text = "#eeeeee"
+
+[colors.normal]
+black   = "#222222"
+red     = "#777777"
+green   = "#999999"
+yellow  = "#b3b3b3"
+blue    = "#888888"
+magenta = "#b3b3b3"
+cyan    = "#cccccc"
+white   = "#c8c8c8"
+
+[colors.bright]
+black   = "#444444"
+red     = "#888888"
+green   = "#aaaaaa"
+yellow  = "#cccccc"
+blue    = "#999999"
+magenta = "#cccccc"
+cyan    = "#e6e6e6"
+white   = "#ffffff"

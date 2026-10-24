@@ -1,0 +1,13 @@
+#!/bin/sh
+# cliplog — watch the X clipboard and store every new entry into cliphist.
+# Start once from .xinitrc (a supervision loop is fine; it never exits).
+
+prev=""
+while :; do
+	cur=$(xclip -o -selection clipboard 2>/dev/null)
+	if [ -n "$cur" ] && [ "$cur" != "$prev" ]; then
+		printf '%s\n' "$cur" | cliphist store 2>/dev/null
+		prev="$cur"
+	fi
+	sleep 0.5
+done

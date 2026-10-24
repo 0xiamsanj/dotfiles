@@ -1,0 +1,156 @@
+#!/bin/sh
+# wifi-menu — Minimalist Rofi Wi-Fi Manager
+
+# 1. Check if Wi-Fi radio is enabled
+if [ "$(nmcli radio wifi)" != "enabled" ]; then
+    choice=$(printf "Turn on Wi-Fi\n" | rofi -dmenu -i -p "Wi-Fi (off)")
+    if [ -n "$choice" ]; then
+        nmcli radio wifi on
+        notify-send -u normal "Wi-Fi" "Wi-Fi radio turned on"
+    fi
+    exit 0
+fi
+
+# 2. Get active connection info reliably from active connections
+current_ssid=$(nmcli -t -f TYPE,NAME connection show --active 2>/dev/null | awk -F: '$1 ~ /wireless|802-11-wireless/ {print $2; exit}')
+if [ -z "$current_ssid" ]; then
+    current_ssid=$(nmcli -t -f ACTIVE,SSID dev wifi 2>/dev/null | awk -F: '$1=="yes"{print $2; exit}')
+fi
+
+# Action symbols in a single compact row
+ACT_SCAN=" Rescan"
+ACT_DISC="󰌙 Disconnect"
+ACT_OFF=" Power Off"
+
+# Actions bar in one horizontal row
+if [ -n "$current_ssid" ]; then
+    ACTIONS_ROW="$ACT_SCAN   │   $ACT_DISC   │   $ACT_OFF"
+else
+    ACTIONS_ROW="$ACT_SCAN   │   $ACT_OFF"
+fi
+
+DIVIDER="────────────────────────────────────────────────────────────────────────"
+
+generate_list() {
+    echo "$ACTIONS_ROW"
+    echo "$DIVIDER"
+
+    # Scan and format SSIDs with connected network prioritized
+    python3 -c "
+import subprocess
+
+current = '$current_ssid'
+try:
+    out = subprocess.check_output(['nmcli', '-t', '-f', 'ACTIVE,SSID,SIGNAL,SECURITY', 'dev', 'wifi', 'list', '--rescan', 'yes']).decode('utf-8', errors='ignore')
+except Exception:
+    out = ''
+
+entries = {}
+for line in out.splitlines():
+    parts = line.split(':')
+    if len(parts) >= 3:
+        act = (parts[0] == 'yes' or parts[1] == current)
+        ssid = parts[1].strip()
+        if not ssid:
+            continue
+        try:
+            sig = int(parts[2])
+        except ValueError:
+            sig = 0
+        sec = parts[3].strip() if len(parts) > 3 and parts[3] and parts[3] != '--' else 'Open'
+
+        if ssid not in entries or act:
+            entries[ssid] = (act, sig, sec)
+
+# Sort: connected first, then by signal strength descending
+sorted_items = sorted(entries.items(), key=lambda x: (not x[1][0], -x[1][1]))
+
+for ssid, (act, sig, sec) in sorted_items:
+    if act:
+        status = '● Connected'
+    else:
+        status = '○'
+    print(f'  {ssid:<34}  {status:<12}  {sec} ({sig}%)')
+" 2>/dev/null
+}
+
+# 1-column layout, 10 lines tall, explicit scrollbar, 720px wide
+choice=$(generate_list | rofi -dmenu -i -p "Wi-Fi" \
+    -theme-str 'window { width: 720px; } listview { columns: 1; lines: 10; scrollbar: true; }' \
+    -mesg "Active: ${current_ssid:-Disconnected}")
+
+[ -z "$choice" ] && exit 0
+
+# Ignore divider click
+if [ "$choice" = "$DIVIDER" ]; then
+    exit 0
+fi
+
+# Handle the single-row action bar selection
+if [ "$choice" = "$ACTIONS_ROW" ]; then
+    # Prompt quick action picker
+    action_pick=$(printf "%s\n%s\n%s\n" "$ACT_SCAN" "$ACT_DISC" "$ACT_OFF" | rofi -dmenu -i -p "Action" -theme-str 'window { width: 400px; } listview { columns: 1; lines: 3; scrollbar: false; }')
+    case "$action_pick" in
+        *"Rescan"*)
+            notify-send -u normal "Wi-Fi" "Rescanning wireless networks..."
+            nmcli dev wifi rescan >/dev/null 2>&1
+            sleep 1
+            exec "$0"
+            ;;
+        *"Disconnect"*)
+            if [ -n "$current_ssid" ]; then
+                nmcli con down id "$current_ssid" >/dev/null 2>&1 || nmcli dev disconnect wlan0 >/dev/null 2>&1
+                notify-send -u normal "Wi-Fi" "Disconnected from $current_ssid"
+            fi
+            exit 0
+            ;;
+        *"Power Off"*)
+            nmcli radio wifi off
+            notify-send -u normal "Wi-Fi" "Wi-Fi powered off"
+            exit 0
+            ;;
+    esac
+    exit 0
+fi
+
+# Handle selecting an SSID directly
+ssid=$(echo "$choice" | awk -F'  +' '{print $1}' | sed 's/^ *//' | xargs)
+[ -z "$ssid" ] && exit 0
+
+# Check if already connected
+if [ "$ssid" = "$current_ssid" ]; then
+    notify-send -u normal "Wi-Fi" "Already connected to $ssid"
+    exit 0
+fi
+
+# Check if this connection is already saved in NetworkManager
+has_saved_profile=$(nmcli -t -f NAME connection show | grep -Fx "$ssid")
+
+if [ -n "$has_saved_profile" ]; then
+    notify-send -u normal "Wi-Fi" "Connecting to saved network: $ssid..."
+    if nmcli connection up id "$ssid" >/dev/null 2>&1; then
+        notify-send -u normal "Wi-Fi" "Connected to $ssid"
+        exit 0
+    fi
+fi
+
+# Check if network is open or secured
+is_secured=$(echo "$choice" | grep -i "Secured")
+
+if [ -n "$is_secured" ]; then
+    pass=$(rofi -dmenu -password -lines 0 -p "Password for $ssid")
+    [ -z "$pass" ] && exit 0
+    notify-send -u normal "Wi-Fi" "Connecting to $ssid..."
+    if nmcli dev wifi connect "$ssid" password "$pass" >/dev/null 2>&1; then
+        notify-send -u normal "Wi-Fi" "Successfully connected to $ssid"
+    else
+        notify-send -u critical "Wi-Fi" "Failed to connect to $ssid (incorrect password or weak signal)"
+    fi
+else
+    notify-send -u normal "Wi-Fi" "Connecting to open network: $ssid..."
+    if nmcli dev wifi connect "$ssid" >/dev/null 2>&1; then
+        notify-send -u normal "Wi-Fi" "Connected to $ssid"
+    else
+        notify-send -u critical "Wi-Fi" "Failed to connect to $ssid"
+    fi
+fi

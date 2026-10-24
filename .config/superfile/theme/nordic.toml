@@ -1,0 +1,61 @@
+# Nordic blue (matches dwm / rofi / tmux)
+
+# Blue-tinted syntax highlighting
+code_syntax_highlight = "nord"
+
+# ========= Border =========
+file_panel_border = "#434c5e"
+sidebar_border = "#3b4252"
+footer_border = "#434c5e"
+
+# ========= Border Active =========
+file_panel_border_active = "#81a1c1"
+sidebar_border_active = "#81a1c1"
+footer_border_active = "#81a1c1"
+modal_border_active = "#81a1c1"
+
+# ========= Background (bg) =========
+full_screen_bg = "#2e3440"
+file_panel_bg = "#2e3440"
+sidebar_bg = "#2e3440"
+footer_bg = "#2e3440"
+modal_bg = "#2e3440"
+
+# ========= Foreground (fg) =========
+full_screen_fg = "#d8dee9"
+file_panel_fg = "#d8dee9"
+sidebar_fg = "#d8dee9"
+footer_fg = "#d8dee9"
+modal_fg = "#d8dee9"
+
+# ========= Special Color =========
+cursor = "#eceff4"
+correct = "#a1baf0"
+error = "#bf616a"
+hint = "#81a1c1"
+cancel = "#81a1c1"
+# Gradient color can only have two color!
+gradient_color = ["#4c566a", "#a1baf0"]
+
+# ========= File Panel Special Items =========
+file_panel_top_directory_icon = "#a1baf0"
+file_panel_top_path = "#eceff4"
+file_panel_item_selected_fg = "#eceff4"
+file_panel_item_selected_bg = "#4c6a92"
+
+# ========= Sidebar Special Items =========
+sidebar_title = "#eceff4"
+sidebar_item_selected_fg = "#eceff4"
+sidebar_item_selected_bg = "#4c6a92"
+sidebar_divider = "#81a1c1"
+
+# ========= Modal Special Items =========
+modal_cancel_fg = "#d8dee9"
+modal_cancel_bg = "#3b4252"
+
+modal_confirm_fg = "#242933"
+modal_confirm_bg = "#a1baf0"
+
+# ========= Help Menu =========
+help_menu_hotkey = "#eceff4"
+help_menu_title = "#d8dee9"

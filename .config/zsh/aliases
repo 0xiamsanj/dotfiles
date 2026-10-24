@@ -8,14 +8,9 @@ alias \
  token='pass show password_store/github_token | xclip -selection clipboard;echo Password copied successfully' \
  notes="nvim ~/Documents/notes" \
  venv="source ~/Public/Pip/.venv/bin/activate"\
- pp="cd ~/Public/Projects;ls" \
- rp="cd ~/Public/Ref-Projects;ls" \
- dsa="cd ~/Public/90_Days_of_DSA;ls"\
- scratch="cd ~/Scratchpad;ls"\
- aoco="cd ~/Public/Advent_of_Code;ls"\
- learn="cd ~/Public/Learning;ls" \
+ aoco="cd ~/Public/advent_of_code;ls"\
  cf="cd ~/.config;ls"   \
- skill="cd ~/Public/90_Days_of_DSA/SkillRack;ls"\
+ skill="cd ~/Public/DSA/SkillRack;ls"\
  ff="cd \$(fzf -i | rev | cut -d '/' -f 2- | rev);ls" \
  src='cd ~/.local/source;ls' \
  bin='cd ~/.local/bin;ls' \
@@ -24,4 +19,9 @@ alias \
  low='cd ~/Public/low_level/systems-programming/;ls'\
  doc='cd ~/Documents/;ls'\
  dw='cd ~/Downloads/;ls'\
- pb='cd ~/Public/;ls'
+ pb='cd ~/Public/;ls'\
+ gdbrun= 'g++ -g main.cpp;gdb a.out'\
+ ausb= 'pactl set-default-sink 17659'\
+ ajack= 'pactl set-default-sink 52'\
+ selfhst='sudo systemctl start tailscaled.service jellyfin.service docker.service docker.socket'\
+ selfsrcs='cd /home/sanj/selfhost/arr-stack/;docker-compose up -d;'

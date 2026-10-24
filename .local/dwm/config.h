@@ -22,19 +22,15 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "JetBrainsMonoNL Nerd Font:size=8","Hack Nerd Font Mono:size=12", "NotoColorEmoji:pixelsize=12:antialias=true:autohint=true"}; /* "NotoColorEmoji:pixelsize=12:antialias=true:autohint=true" */
-static char normbgcolor[]           = "#000000";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#000000";
+static char *fonts[]          = { "IBM Plex Mono:size=8", "JetBrainsMonoNL Nerd Font:size=10", "Symbols Nerd Font:size=10", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"}; /* "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" */
+// Nordic blue: dark blue-gray surfaces, pastel blue selection
+static char normbgcolor[]           = "#242933";
+static char normbordercolor[]       = "#4c566a";   /* inactive window border */
+static char normfgcolor[]           = "#d8dee9";   /* snow text */
+static char selfgcolor[]            = "#eceff4";   /* light text on selection */
 
-// Rosepine colorscheme
-static char selbordercolor[]        = "#d7827e";
-static char selbgcolor[]            = "#d7827e";
-
-// Nordic colorscheme
-/* static char selbordercolor[]        = "#a1baf0";
-static char selbgcolor[]            = "#a1baf0"; */
+static char selbordercolor[]        = "#a1baf0";   /* pastel blue focus border */
+static char selbgcolor[]            = "#4c6a92";
 
 static char *colors[][3] = {
        /*               fg           bg           border   */
@@ -64,12 +60,20 @@ static const Rule rules[] = {
 	*/
 	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
 	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
+	{ "eww",      NULL,       NULL,       	    0,            1,           0,         0,        -1 },
 	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
 	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
-	{ TERMCLASS,      "floatterm", NULL,       	    0,       1,           1,         0,        -1 },
+	{ TERMCLASS,      "floatterm", NULL,       	    0,            1,           1,         0,        -1 },
+	{ "floatterm",    NULL,       NULL,       	    0,            1,           0,         0,        -1 },
+	{ NULL,           NULL,       "nordic-calendar",    0,            1,           0,         0,        -1 },
+	{ NULL,           NULL,       "bluetui",            0,            1,           1,         0,        -1 },
+	{ NULL,           NULL,       "nmtui",              0,            1,           1,         0,        -1 },
+	{ NULL,           NULL,       "pulsemixer",         0,            1,           1,         0,        -1 },
 	{ TERMCLASS,      "bg",        NULL,       	    1 << 7,       0,           1,         0,        -1 },
 	{ TERMCLASS,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
 	{ TERMCLASS,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
+	/* Wispr Flow's dictation pill: float it and keep it above other windows */
+	{ "Wispr Flow",   NULL,       NULL,       	    0,            1,           0,         0,        -1, 1 },
 };
 
 /* layout(s) */
@@ -123,12 +127,12 @@ static const char *termcmd[]  = { TERMINAL, NULL };
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "color0",		STRING,	&normbordercolor },
-		{ "color8",		STRING,	&selbordercolor },
-		{ "color0",		STRING,	&normbgcolor },
-		{ "color4",		STRING,	&normfgcolor },
-		{ "color0",		STRING,	&selfgcolor },
-		{ "color4",		STRING,	&selbgcolor },
+		{ "normbordercolor",	STRING,	&normbordercolor },
+		{ "selbordercolor",	STRING,	&selbordercolor },
+		{ "normbgcolor",	STRING,	&normbgcolor },
+		{ "normfgcolor",	STRING,	&normfgcolor },
+		{ "selfgcolor",		STRING,	&selfgcolor },
+		{ "selbgcolor",		STRING,	&selbgcolor },
 		{ "borderpx",		INTEGER, &borderpx },
 		{ "snap",		INTEGER, &snap },
 		{ "showbar",		INTEGER, &showbar },
@@ -152,6 +156,7 @@ static const Key keys[] = {
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
 	/* { MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("control-center") },
 	{ MODKEY,			XK_grave,	spawn,	{.v = (const char*[]){ "dmenuunicode", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
 	TAGKEYS(			XK_1,		0)
@@ -181,7 +186,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_e,		spawn,		{.v = (const char*[]){ TERMINAL, "-e","lfub", NULL } } },
 	{ MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
 	{ MODKEY,			XK_r,		spawn,		{.v = (const char*[]){ FILEMANAGER , NULL } } },
-	{ MODKEY|ShiftMask,		XK_r,		spawn,	{.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } }  },
+	{ MODKEY|ShiftMask,		XK_r,		spawn,	{.v = (const char*[]){ "flameshot","gui", NULL } }  },
 	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,		XK_t,		setlayout,	{.v = &layouts[1]} }, /* bstack */
 	{ MODKEY,			XK_y,		setlayout,	{.v = &layouts[2]} }, /* spiral */
@@ -204,8 +209,8 @@ static const Key keys[] = {
 	{ MODKEY,			XK_a,		togglegaps,	{0} },
 	{ MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
 	{ MODKEY,			XK_s,		togglesticky,	{0} },
-	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "dmenu_run", NULL } } },
+		{ MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("wifi-menu") },
+	{ MODKEY,			XK_d,		spawn,          {.v = (const char*[]){ "rofi-dmenu", NULL } } },
 	{ MODKEY|ShiftMask,		XK_d,		spawn,		{.v = (const char*[]){ BRAVE, NULL } } },
 	{ MODKEY,			XK_f,		togglefullscr,	{0} },
 	/* { MODKEY|ControlMask,		XK_f,		spawn,	        {.v = (const char*[]){ TERMINAL, "-e","cd / && fzf -i", NULL } } }, */
@@ -226,12 +231,12 @@ static const Key keys[] = {
 	{ MODKEY,			XK_z,		incrgaps,	{.i = +3 } },
 	/* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_x,		incrgaps,	{.i = -3 } },
-	/* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("lockscreen") },
 	{ MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ "telegram-desktop" , NULL } } },
 	{ MODKEY|ShiftMask,		XK_c,		spawn,		{.v = (const char*[]){ ANDROID, NULL } } },
 	/* V is automatically bound above in STACKKEYS */
 	{ MODKEY,			XK_b,		togglebar,	{0} },
-	{ MODKEY|ShiftMask,		XK_b,		spawn,		{.v = (const char*[]){ BLUETOOTH , NULL } } },
+		{ MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("bt-menu") },
 	{ MODKEY,			XK_n,		spawn,		SHCMD(TERMINAL " -e nvim") },
 	{ MODKEY|ShiftMask,		XK_n,		spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "5", NULL } } },
 	{ MODKEY,			XK_m,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } },
@@ -258,6 +263,7 @@ static const Key keys[] = {
 	{ MODKEY,		    XK_F3,		spawn,		SHCMD("~/.local/bin/displayselect") },
 	{ MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
+	{ MODKEY|ShiftMask,		XK_F5,		spawn,		SHCMD("theme-switcher") },
 	{ MODKEY,			XK_F6,		spawn,		{.v = (const char*[]){ "torwrap", NULL } } },
 	{ MODKEY,			XK_F7,		spawn,		{.v = (const char*[]){ "td-toggle", NULL } } },
 	{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },

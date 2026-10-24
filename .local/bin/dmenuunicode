@@ -1,0 +1,13 @@
+#!/bin/sh
+# dmenuunicode — pick an emoji/unicode character and type it into
+# the focused window (or copy to the X clipboard with Ctrl+c).
+# Character list lives in ~/.local/share/larbs/emojis.
+
+E="$HOME/.local/share/larbs/emojis"
+[ -f "$E" ] || E="/usr/share/$USER/emojis"
+
+PICK=$(grep -v "^#" "$E" | dmenu -i -p "Character:" "$@" | cut -d ' ' -f 1)
+
+if [ -n "$PICK" ]; then
+	xdotool type --delay 2 "$PICK"
+fi

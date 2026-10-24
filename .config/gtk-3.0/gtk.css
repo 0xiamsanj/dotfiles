@@ -1,0 +1,23 @@
+/* Nordic selection contrast overrides */
+@define-color theme_selected_bg_color #4c6a92;
+@define-color theme_selected_fg_color #eceff4;
+@define-color selected_bg_color #4c6a92;
+@define-color selected_fg_color #eceff4;
+@define-color theme_unfocused_selected_bg_color #4c6a92;
+@define-color theme_unfocused_selected_fg_color #eceff4;
+@define-color unfocused_selected_bg_color #4c6a92;
+@define-color unfocused_selected_fg_color #eceff4;
+
+selection,
+*:selected,
+row:selected,
+treeview.view:selected,
+.view:selected,
+list row:selected,
+iconview:selected,
+entry selection,
+textview text selection,
+label selection {
+  background-color: #4c6a92;
+  color: #eceff4;
+}

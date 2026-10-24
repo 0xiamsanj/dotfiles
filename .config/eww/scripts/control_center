@@ -1,0 +1,11 @@
+#!/bin/bash
+#pgrep mpd.sh || setsid -f $HOME/.config/dwm/scripts/bar/mpd.sh
+[ "$(pgrep eww)" ] || eww daemon
+[ "$XDG_SESSION_TYPE" = "wayland" ] && # assumes mangowm
+    (
+        m="$(mmsg get all-monitors | jq -r '.monitors[] | select(.active) | .name')" &&
+            #eww open control_center --toggle --screen $m ||
+            eww open-many closer control_center --toggle ||
+            notify-send "Eww" "Error launching Eww"
+        ) ||
+    eww open control_center_dwm --toggle

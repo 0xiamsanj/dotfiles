@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Date block (weekday, month-day). Click shows the month calendar.
+
+case $BLOCK_BUTTON in
+	1) setsid -f ~/.local/bin/nordic-calendar.py >/dev/null 2>&1 ;;
+	3) setsid -f ~/.local/bin/nordic-calendar.py >/dev/null 2>&1 ;;
+esac
+
+date "+󰃭 %b-%d"

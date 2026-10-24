@@ -1,26 +1,53 @@
 #!/bin/sh
+# sysact — Modern Frosted Rofi Power & Session Menu
 
-# A dmenu wrapper script for system functions.
 export WM="dwm"
 case "$(readlink -f /sbin/init)" in
 	*systemd*) ctl='systemctl' ;;
 	*) ctl='loginctl' ;;
 esac
 
-wmpid(){ # This function is needed if there are multiple instances of the window manager.
+wmpid(){
 	tree="$(pstree -ps $$)"
 	tree="${tree#*$WM(}"
 	echo "${tree%%)*}"
 }
 
-case "$(printf "🔒 lock\n🚪 leave $WM\n♻️ renew $WM\n🐻 hibernate\n🔃 reboot\n🖥️shutdown\n💤 sleep\n📺 display off" | dmenu -i -p 'Action: ')" in
-	'🔒 lock') exec betterlockscreen -l dimblur ;;
-	"🚪 leave $WM") kill -TERM "$(wmpid)" ;;
-	"♻️ renew $WM") kill -HUP "$(wmpid)" ;;
-	'🐻 hibernate') slock $ctl hibernate -i ;;
-	'💤 sleep') slock $ctl suspend -i ;;
-	'🔃 reboot') $ctl reboot -i ;;
-	'🖥️shutdown') $ctl poweroff -i ;;
-	'📺 display off') xset dpms force off ;;
-	*) exit 1 ;;
+OPTIONS="  Lock Screen
+  Suspend / Sleep
+  Reboot System
+  Power Off
+  Log Out of $WM
+  Restart $WM"
+
+choice=$(printf "%s\n" "$OPTIONS" | rofi -dmenu -i -p "Power" \
+    -theme-str 'window { width: 440px; } listview { columns: 1; lines: 6; scrollbar: false; }' \
+    -mesg "Select session action:")
+
+[ -z "$choice" ] && exit 0
+
+case "$choice" in
+	*"Lock Screen"*)
+		exec lockscreen
+		;;
+	*"Suspend / Sleep"*)
+		lockscreen &
+		sleep 0.3
+		$ctl suspend -i
+		;;
+	*"Reboot System"*)
+		$ctl reboot -i
+		;;
+	*"Power Off"*)
+		$ctl poweroff -i
+		;;
+	*"Log Out"*)
+		kill -TERM "$(wmpid)"
+		;;
+	*"Restart"*)
+		kill -HUP "$(wmpid)"
+		;;
+	*)
+		exit 1
+		;;
 esac

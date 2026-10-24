@@ -1,13 +1,21 @@
 #!/bin/bash
 
+# Shows connected bluetooth device; click opens blueberry.
+
+case $BLOCK_BUTTON in
+	1) setsid -f alacritty --class floatterm -T "bluetui" -o "window.dimensions.columns=70" -o "window.dimensions.lines=24" -e bluetui >/dev/null 2>&1 ;;
+	3) setsid -f alacritty --class floatterm -T "bluetui" -o "window.dimensions.columns=70" -o "window.dimensions.lines=24" -e bluetui >/dev/null 2>&1 ;;
+esac
+
 device_name=$(bluetoothctl devices Connected | cut -d' ' -f3-)
 status=''
 icon=''
 if ! [ -z $device_name ] ; then
-   status="$device_name"
+   status="${device_name:0:12}"
+   [ ${#device_name} -gt 12 ] && status="$status…"
    icon='󰂰'
 else
-   status="Not connected"
+   status="Off"
    icon='󰂲'
 fi
 echo "$icon $status"

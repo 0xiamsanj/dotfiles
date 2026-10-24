@@ -1,37 +1,54 @@
 #!/bin/sh
+# battery — Interactive battery block and detailed notification card
 
-# Prints all batteries, their percentage remaining and an emoji corresponding
-# to charge status (🔌 for plugged up, 🔋 for discharging on battery, etc.).
+BAT="/sys/class/power_supply/BAT1"
+[ ! -d "$BAT" ] && BAT="$(ls -d /sys/class/power_supply/BAT* 2>/dev/null | head -n 1)"
 
-#case $BLOCK_BUTTON in
-	#3) notify-send " Battery module" ": discharging
-#󱤷: not charging
-#󱎝: stagnant charge
-#: charging
-#: charged
-#: battery very low!
-#- Scroll to change adjust xbacklight." ;;
-	#4) xbacklight -inc 10 ;;
-	#5) xbacklight -dec 10 ;;
-	#6) "$TERMINAL" -e "$EDITOR" "$0" ;;
-#esac
+if [ ! -d "$BAT" ]; then
+    echo "󰂎 No Bat"
+    exit 0
+fi
 
-# Loop through all attached batteries and format the info
-for battery in /sys/class/power_supply/BAT?*; do
-	# If non-first battery, print a space separator.
-	[ -n "${capacity+x}" ] && printf " "
-	# Sets up the status and capacity
-	case "$(cat "$battery/status" 2>&1)" in
-		"Full") status="󰂅" ;;
-		"Discharging") status="󰁹" ;;
-		"Charging") status="" ;;
-		"Not charging") status="󱤷 " ;;
-		"Unknown") status="󱎝 " ;;
-		*) exit 1 ;;
-	esac
-	capacity="$(cat "$battery/capacity" 2>&1)"
-	# Will make a warn variable if discharging and low
-	[ "$status" = "" ] && [ "$capacity" -le 25 ] && warn=""
-	# Prints the info
-	printf "[%s %s%d%%]" "$status" "$warn" "$capacity"; unset warn
-done && printf "\\n"
+status="$(cat "$BAT/status" 2>/dev/null)"
+capacity="$(cat "$BAT/capacity" 2>/dev/null)"
+[ -z "$capacity" ] && capacity=0
+
+# On click: detailed battery health card notification
+case $BLOCK_BUTTON in
+    1|3)
+        energy_now=$(cat "$BAT/energy_now" 2>/dev/null || cat "$BAT/charge_now" 2>/dev/null || echo 0)
+        energy_full=$(cat "$BAT/energy_full" 2>/dev/null || cat "$BAT/charge_full" 2>/dev/null || echo 0)
+        energy_design=$(cat "$BAT/energy_full_design" 2>/dev/null || cat "$BAT/charge_full_design" 2>/dev/null || echo 0)
+        power_now=$(cat "$BAT/power_now" 2>/dev/null || cat "$BAT/current_now" 2>/dev/null || echo 0)
+
+        health="Unknown"
+        if [ "$energy_full" -gt 0 ] && [ "$energy_design" -gt 0 ]; then
+            health="$(( (energy_full * 100) / energy_design ))%"
+        fi
+
+        rate_w="N/A"
+        if [ "$power_now" -gt 0 ]; then
+            rate_w="$(awk -v p="$power_now" 'BEGIN { printf "%.2f W", p / 1000000 }')"
+        fi
+
+        notify-send -u normal "Battery Details" "Status: $status ($capacity%)\nHealth: $health\nRate: $rate_w\nPower Profile: Balanced" -i battery
+        ;;
+esac
+
+# Glyphs
+case "$status" in
+    "Full") icon="󰂅" ;;
+    "Charging") icon="󰂄" ;;
+    "Discharging")
+        if [ "$capacity" -ge 90 ]; then icon="󰁹"
+        elif [ "$capacity" -ge 70 ]; then icon="󰂁"
+        elif [ "$capacity" -ge 50 ]; then icon="󰁿"
+        elif [ "$capacity" -ge 30 ]; then icon="󰁽"
+        elif [ "$capacity" -ge 15 ]; then icon="󰁻"
+        else icon="󰂃"
+        fi
+        ;;
+    *) icon="󰁹" ;;
+esac
+
+echo "$icon $capacity%"

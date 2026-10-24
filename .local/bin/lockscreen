@@ -1,0 +1,59 @@
+#!/bin/sh
+# lockscreen — Nordic blue lock screen.
+# Uses the blurred/dimmed image cached by betterlockscreen:
+#   betterlockscreen -u <wallpaper>   (re-run when changing wallpaper)
+# Then lock with: lockscreen   (Mod+Shift+x)
+
+CACHE="$HOME/.cache/betterlockscreen/current/lock_dimblur.png"
+
+if [ ! -f "$CACHE" ]; then
+    # no cache yet: fall back to stock betterlockscreen
+    exec /usr/bin/betterlockscreen -l dimblur
+fi
+
+# font families
+FONT="IBM Plex Mono"
+FONT_CLOCK="IBM Plex Mono:style=Light"
+
+# pause notifications while locked; -n keeps i3lock in the foreground
+# so we can unpause as soon as it exits
+dunstctl set-paused true 2>/dev/null
+
+i3lock -n \
+    -i "$CACHE" \
+    --color=242933ff \
+    --clock --force-clock \
+    --ind-pos="x+310:y+h-80" \
+    --radius=25 \
+    --ring-width=6 \
+    --inside-color=00000000 \
+    --ring-color=4c566aff \
+    --line-uses-inside \
+    --separator-color=00000000 \
+    --keyhl-color=a1baf0ff \
+    --bshl-color=81a1c1ff \
+    --insidever-color=00000000 \
+    --ringver-color=a1baf0ff \
+    --insidewrong-color=4c566a4d \
+    --ringwrong-color=bf616aff \
+    --time-pos="ix-265:iy-10" --time-align=1 \
+    --time-str="%H:%M" \
+    --time-color=eceff4ff --time-font="$FONT_CLOCK" --time-size=20 \
+    --date-str="" \
+    --greeter-pos="ix-265:iy+12" --greeter-align=1 \
+    --greeter-text="Type password to unlock..." \
+    --greeter-color=81a1c1ff --greeter-font="$FONT" --greeter-size=10 \
+    --layout-pos="ix-265:iy+30" --layout-align=1 \
+    --layout-color=81a1c1ff --layout-font="$FONT" --layout-size=9 \
+    --verif-pos="ix+35:iy-34" --verif-align=2 \
+    --verif-text="Verifying..." \
+    --verif-color=eceff4ff --verif-font="$FONT" --verif-size=9 \
+    --wrong-pos="ix+24:iy-34" --wrong-align=2 \
+    --wrong-text="Failure!" \
+    --wrong-color=bf616aff --wrong-font="$FONT" --wrong-size=9 \
+    --modif-pos="ix+45:iy+43" --modif-align=2 \
+    --modif-size=9 --modif-color=eceff4ff \
+    --noinput-text="" \
+    --pass-media-keys --pass-screen-keys --pass-volume-keys --pass-power-keys
+
+dunstctl set-paused false 2>/dev/null

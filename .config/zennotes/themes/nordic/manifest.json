@@ -1,0 +1,11 @@
+{
+  "name": "Nordic",
+  "author": "sanj",
+  "version": "1.0.0",
+  "description": "Nordic blue \u2014 dark blue-gray surfaces with pastel blue accents (matches dwm).",
+  "modes": "dark",
+  "preview": {
+    "light": "#a1baf0",
+    "dark": "#242933"
+  }
+}

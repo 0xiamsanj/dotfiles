@@ -1,0 +1,99 @@
+#!/bin/sh
+# bt-menu — Minimalist Rofi Bluetooth Manager
+
+# 1. Check if Bluetooth radio is powered on
+if [ "$(bluetoothctl show | awk '/Powered:/{print $2}')" != "yes" ]; then
+    choice=$(printf "Turn on Bluetooth\n" | rofi -dmenu -i -p "Bluetooth (off)")
+    if [ -n "$choice" ]; then
+        bluetoothctl power on >/dev/null
+        notify-send -u normal "Bluetooth" "Bluetooth powered on"
+    fi
+    exit 0
+fi
+
+ACT_SCAN=" Scan Devices"
+ACT_OFF=" Power Off"
+ACTIONS_ROW="$ACT_SCAN   │   $ACT_OFF"
+DIVIDER="────────────────────────────────────────────────────────────────────────"
+
+menu_options() {
+    echo "$ACTIONS_ROW"
+    echo "$DIVIDER"
+
+    # List Paired Devices with clean minimal text layout
+    bluetoothctl devices Paired 2>/dev/null | sed 's/^Device //' | while read -r mac rest; do
+        if bluetoothctl info "$mac" 2>/dev/null | grep -q 'Connected: yes'; then
+            printf "  %-32s  ● Connected  (%s)\n" "$rest" "$mac"
+        else
+            printf "  %-32s  ○ Paired     (%s)\n" "$rest" "$mac"
+        fi
+    done
+}
+
+choice=$(menu_options | rofi -dmenu -i -p "Bluetooth" \
+    -theme-str 'window { width: 720px; } listview { columns: 1; lines: 10; scrollbar: true; }' \
+    -mesg "Select a device to connect/disconnect, or scan for new ones")
+
+[ -z "$choice" ] && exit 0
+
+# Ignore divider click
+if [ "$choice" = "$DIVIDER" ]; then
+    exit 0
+fi
+
+# Handle single-row actions
+if [ "$choice" = "$ACTIONS_ROW" ]; then
+    action_pick=$(printf "%s\n%s\n" "$ACT_SCAN" "$ACT_OFF" | rofi -dmenu -i -p "Action" -theme-str 'window { width: 380px; } listview { columns: 1; lines: 2; scrollbar: false; }')
+    case "$action_pick" in
+        *"Scan"*)
+            notify-send -u normal "Bluetooth" "Scanning for nearby devices (5s)..."
+            bluetoothctl --timeout 5 scan on >/dev/null 2>&1
+
+            new_device=$(bluetoothctl devices 2>/dev/null | sed 's/^Device //' | while read -r mac rest; do
+                if [ -n "$rest" ] && [ "$rest" != "$mac" ]; then
+                    is_paired=$(bluetoothctl info "$mac" 2>/dev/null | grep 'Paired: yes')
+                    if [ -z "$is_paired" ]; then
+                        printf "  %-32s  Available  (%s)\n" "$rest" "$mac"
+                    fi
+                fi
+            done | rofi -dmenu -i -p "Pair Device" -theme-str 'window { width: 720px; } listview { columns: 1; lines: 8; scrollbar: true; }' -mesg "Select a discovered device to Pair, Trust & Connect")
+
+            [ -z "$new_device" ] && exit 0
+
+            target_mac=$(echo "$new_device" | sed -E 's/.*\(([0-9A-Fa-f:]{17})\).*/\1/')
+            [ -z "$target_mac" ] && exit 0
+
+            notify-send -u normal "Bluetooth" "Pairing with $target_mac..."
+            bluetoothctl pair "$target_mac" >/dev/null 2>&1
+            bluetoothctl trust "$target_mac" >/dev/null 2>&1
+            if bluetoothctl connect "$target_mac" >/dev/null 2>&1; then
+                notify-send -u normal "Bluetooth" "Successfully paired and connected!"
+            else
+                notify-send -u normal "Bluetooth" "Pairing completed. Try connecting if needed."
+            fi
+            exit 0
+            ;;
+        *"Power Off"*)
+            bluetoothctl power off >/dev/null
+            notify-send -u normal "Bluetooth" "Bluetooth powered off"
+            exit 0
+            ;;
+    esac
+    exit 0
+fi
+
+# Handle selecting an existing paired device
+target_mac=$(echo "$choice" | sed -E 's/.*\(([0-9A-Fa-f:]{17})\).*/\1/')
+[ -z "$target_mac" ] && exit 0
+
+if bluetoothctl info "$target_mac" | grep -q 'Connected: yes'; then
+    bluetoothctl disconnect "$target_mac" >/dev/null
+    notify-send -u normal "Bluetooth" "Disconnected from $target_mac"
+else
+    notify-send -u normal "Bluetooth" "Connecting to $target_mac..."
+    if bluetoothctl connect "$target_mac" >/dev/null; then
+        notify-send -u normal "Bluetooth" "Connected to $target_mac"
+    else
+        notify-send -u critical "Bluetooth" "Failed to connect to $target_mac"
+    fi
+fi

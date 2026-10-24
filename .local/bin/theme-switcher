@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# theme-switcher — Switch full desktop theme across GTK, DWM, Alacritty, Tmux, lf, Rofi, Dunst, & Wallpapers
+
+THEMES_DIR="$HOME/.config/themes"
+
+apply_theme() {
+    THEME_KEY="$1"
+    THEME_FILE="$THEMES_DIR/$THEME_KEY/theme.sh"
+
+    if [ ! -f "$THEME_FILE" ]; then
+        notify-send -u critical "Theme Switcher" "Theme definition not found: $THEME_KEY"
+        exit 1
+    fi
+
+    # Source theme variables
+    . "$THEME_FILE"
+
+    notify-send -u normal "Theme Switcher" "Applying theme: $THEME_NAME..."
+
+    # 1. Update GTK 3 & GTK 4 settings
+    if [ -n "$GTK_THEME" ]; then
+        sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$GTK_THEME/" "$HOME/.config/gtk-3.0/settings.ini" 2>/dev/null
+        sed -i "s/^gtk-theme-name=.*/gtk-theme-name=$GTK_THEME/" "$HOME/.config/gtk-4.0/settings.ini" 2>/dev/null
+        gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME" 2>/dev/null
+    fi
+
+    # 2. Update Alacritty colorscheme import
+    if [ -n "$ALACRITTY_THEME" ]; then
+        sed -i "s|colorschemes/.*\.toml|colorschemes/$ALACRITTY_THEME|" "$HOME/.config/alacritty/alacritty.toml" 2>/dev/null
+    fi
+
+    # 3. Update Tmux theme and live reload active sessions
+    TMUX_SRC="$HOME/.config/tmux/themes/$THEME_KEY.conf"
+    if [ -f "$TMUX_SRC" ]; then
+        cp -f "$TMUX_SRC" "$HOME/.config/tmux/theme.conf"
+        if pgrep -f "tmux" >/dev/null 2>&1; then
+            tmux source-file "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
+            tmux refresh-client -S 2>/dev/null || true
+            tmux refresh-client 2>/dev/null || true
+        fi
+    fi
+
+    # 4. Update lf colors and UI theme
+    LF_SRC="$HOME/.config/lf/colorschemes/$THEME_KEY"
+    if [ -f "$LF_SRC" ]; then
+        cp -f "$LF_SRC" "$HOME/.config/lf/colors"
+    fi
+    LF_THEME_SRC="$HOME/.config/lf/themes/$THEME_KEY.lfrc"
+    if [ -f "$LF_THEME_SRC" ]; then
+        cp -f "$LF_THEME_SRC" "$HOME/.config/lf/theme.lfrc"
+    fi
+    # Live reload all currently open lf instances via IPC
+    if pgrep -f "lf" >/dev/null 2>&1; then
+        lf -remote "send source ~/.config/lf/theme.lfrc" 2>/dev/null || true
+        lf -remote "send reload" 2>/dev/null || true
+    fi
+
+    # 5. Update Rofi theme
+    if [ -n "$ROFI_THEME" ]; then
+        sed -i "s|@theme \".*\"|@theme \"~/.config/rofi/$ROFI_THEME\"|" "$HOME/.config/rofi/config.rasi" 2>/dev/null
+    fi
+
+    # 6. Update Dunst colors, markup typography, and icon set
+    DUNSTRC="$HOME/.config/dunst/dunstrc"
+    DUNST_ICON_SRC="$HOME/.config/dunst/themes/$THEME_KEY/bell.svg"
+    if [ -f "$DUNST_ICON_SRC" ]; then
+        cp -f "$DUNST_ICON_SRC" "$HOME/.config/dunst/icons/bell.svg"
+    fi
+
+    if [ -f "$DUNSTRC" ]; then
+        # Global frame color
+        sed -i "s/^    frame_color = \".*\"/    frame_color = \"$DUNST_FRAME\"/" "$DUNSTRC" 2>/dev/null
+
+        # Global format markup title color & body color
+        sed -i "s|format = \"<span font_desc='IBM Plex Sans Bold 9.5' foreground='.*'>%s</span>|format = \"<span font_desc='IBM Plex Sans Bold 9.5' foreground='$DUNST_TITLE_COLOR'>%s</span>|" "$DUNSTRC" 2>/dev/null
+        sed -i "s|<span font_desc='IBM Plex Sans 8.5' foreground='.*'>%b</span>\"|<span font_desc='IBM Plex Sans 8.5' foreground='$DUNST_BODY_COLOR'>%b</span>\"|" "$DUNSTRC" 2>/dev/null
+
+        # Urgency normal colors
+        sed -i "/\[urgency_normal\]/,/\[/ s/background = \".*\"/background = \"$DUNST_BG\"/" "$DUNSTRC" 2>/dev/null
+        sed -i "/\[urgency_normal\]/,/\[/ s/foreground = \".*\"/foreground = \"$DUNST_FG\"/" "$DUNSTRC" 2>/dev/null
+        sed -i "/\[urgency_normal\]/,/\[/ s/frame_color = \".*\"/frame_color = \"$DUNST_FRAME\"/" "$DUNSTRC" 2>/dev/null
+        sed -i "/\[urgency_normal\]/,/\[/ s/highlight = \".*\"/highlight = \"$DUNST_HIGHLIGHT\"/" "$DUNSTRC" 2>/dev/null
+
+        # Reload Dunst
+        pkill dunst 2>/dev/null
+        setsid dunst >/dev/null 2>&1 &
+    fi
+
+    # 7. Update DWM via ~/.Xresources and live SIGHUP reload
+    cat << EOF > "$HOME/.Xresources"
+dwm.normbgcolor: $DWM_NORM_BG
+dwm.normfgcolor: $DWM_NORM_FG
+dwm.normbordercolor: $DWM_NORM_BORDER
+dwm.selbgcolor: $DWM_SEL_BG
+dwm.selfgcolor: $DWM_SEL_FG
+dwm.selbordercolor: $DWM_SEL_BORDER
+EOF
+    xrdb "$HOME/.Xresources" 2>/dev/null
+    kill -HUP "$(pidof dwm)" 2>/dev/null || true
+
+    # 8. Set wallpaper if exists
+    if [ -n "$WALLPAPER" ] && [ -f "$WALLPAPER" ]; then
+        nitrogen --set-zoom-fill "$WALLPAPER" --save 2>/dev/null || feh --bg-fill "$WALLPAPER" 2>/dev/null
+    fi
+
+    notify-send -u normal "Theme Switcher" "Active Theme: $THEME_NAME"
+}
+
+# If argument passed directly (e.g., theme-switcher nordic-blue)
+if [ -n "$1" ]; then
+    apply_theme "$1"
+    exit 0
+fi
+
+# Otherwise, present interactive frosted Rofi selector
+SELECTION=$(printf "  Nordic Blue\n  Gray + Pastel Red\n  Red + Pitch Black" | rofi -dmenu -i -p "Themes" \
+    -theme-str 'window { width: 440px; } listview { columns: 1; lines: 3; scrollbar: false; }' \
+    -mesg "Select active system theme:")
+
+case "$SELECTION" in
+    *"Nordic Blue"*)
+        apply_theme "nordic-blue"
+        ;;
+    *"Gray + Pastel Red"*)
+        apply_theme "pastel-red"
+        ;;
+    *"Red + Pitch Black"*)
+        apply_theme "pitch-red"
+        ;;
+    *)
+        exit 0
+        ;;
+esac
