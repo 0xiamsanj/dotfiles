@@ -101,6 +101,7 @@ EOF
     # 8. Set wallpaper if exists
     if [ -n "$WALLPAPER" ] && [ -f "$WALLPAPER" ]; then
         nitrogen --set-zoom-fill "$WALLPAPER" --save 2>/dev/null || feh --bg-fill "$WALLPAPER" 2>/dev/null
+        betterlockscreen -u "$WALLPAPER" >/dev/null 2>&1 &
     fi
 
     notify-send -u normal "Theme Switcher" "Active Theme: $THEME_NAME"
