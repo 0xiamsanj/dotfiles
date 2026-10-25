@@ -5,7 +5,8 @@
 #   Ctrl+Del    delete entry (custom fallback)
 # Needs the cliplog watcher running (started from .xinitrc).
 
-line=$(cliphist list | rofi -dmenu -i \
+line=$(cliphist list | head -n 10 | rofi -dmenu -i \
+	-lines 10 \
 	-kb-remove-char-forward "" \
 	-kb-custom-1 "Control+Delete,Control+d" \
 	-mesg "Enter: copy · Shift+Delete or Ctrl+D: delete" \
