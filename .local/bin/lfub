@@ -11,6 +11,10 @@ cleanup() {
 	rm "$FIFO_UEBERZUG"
 }
 
+if [ -f "$HOME/.config/lf/colors" ]; then
+	export LF_COLORS="$(awk '!/^#/ && NF>=2 {printf "%s=%s:", $1, $2}' "$HOME/.config/lf/colors" | sed 's/:$//')"
+fi
+
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	lf "$@"
 else
