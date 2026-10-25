@@ -6,7 +6,8 @@
 # Needs the cliplog watcher running (started from .xinitrc).
 
 line=$(cliphist list | head -n 10 | rofi -dmenu -i \
-	-lines 10 \
+	-display-columns 2 \
+	-theme-str 'listview { columns: 1; lines: 10; scrollbar: false; } window { width: 650px; } element-icon { display: none; }' \
 	-kb-remove-char-forward "" \
 	-kb-custom-1 "Control+Delete,Control+d" \
 	-mesg "Enter: copy · Shift+Delete or Ctrl+D: delete" \
