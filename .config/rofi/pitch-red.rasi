@@ -31,7 +31,7 @@ mainbox {
     background-color: transparent;
     padding:          20px;
     spacing:          14px;
-    children:         [ "inputbar", "listview", "mode-switcher" ];
+    children:         [ "inputbar", "message", "listview", "mode-switcher" ];
 }
 
 inputbar {

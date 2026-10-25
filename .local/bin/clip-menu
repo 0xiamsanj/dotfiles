@@ -1,13 +1,15 @@
 #!/bin/sh
 # clip-menu — browse your clipboard history (cliphist) via rofi.
-#   Enter      copy the selected entry back to the clipboard
-#   Ctrl+Delete  remove the entry from the history
+#   Enter       copy the selected entry back to the clipboard
+#   Shift+Del   delete entry from history (built-in rofi kb-delete-entry)
+#   Ctrl+Del    delete entry (custom fallback)
 # Needs the cliplog watcher running (started from .xinitrc).
 
 line=$(cliphist list | rofi -dmenu -i \
-	-kb-custom-1 'Control+d' \
-	-mesg 'Enter: copy · Ctrl+D: delete' \
-	-p 'Clipboard')
+	-kb-remove-char-forward "" \
+	-kb-custom-1 "Control+Delete,Control+d" \
+	-mesg "Enter: copy · Shift+Delete or Ctrl+D: delete" \
+	-p "Clipboard")
 ret=$?
 
 case "$ret" in

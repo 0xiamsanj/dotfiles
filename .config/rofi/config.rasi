@@ -1,5 +1,5 @@
 /* rofi — Nordic blue */
-@theme "~/.config/rofi/nordic.rasi"
+@theme "~/.config/rofi/pastel-red.rasi"
 
 configuration {
     font: "IBM Plex Mono 10";
