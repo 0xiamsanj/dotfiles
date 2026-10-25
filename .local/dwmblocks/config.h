@@ -2,7 +2,7 @@
 //Start/clickable blocks: dwm sends SIGUSR1 (signal<<8 | button) -> dwmblocks re-runs that block with $BLOCK_BUTTON.
 static const Block blocks[] = {
 	/*Icon*/	/*Command*/			/*Update Interval*/	/*Update Signal*/
-	{"",	"~/.local/bin/spotify",		5,	11},
+	{"",	"~/.local/bin/music",		5,	11},
 	{"",	"~/.local/bin/wifi",		10,	4},
 	{"",	"~/.local/bin/bluetooth",	30,	6},
 	{"",	"~/.local/bin/battery",		30,	3},
