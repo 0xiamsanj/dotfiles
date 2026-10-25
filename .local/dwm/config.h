@@ -235,6 +235,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ "telegram-desktop" , NULL } } },
 	{ MODKEY|ShiftMask,		XK_c,		spawn,		{.v = (const char*[]){ ANDROID, NULL } } },
 	/* V is automatically bound above in STACKKEYS */
+	{ MODKEY|ShiftMask,		XK_v,		spawn,		SHCMD("clip-menu") },
 	{ MODKEY,			XK_b,		togglebar,	{0} },
 		{ MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("bt-menu") },
 	{ MODKEY,			XK_n,		spawn,		SHCMD(TERMINAL " -e nvim") },
