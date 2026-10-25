@@ -1,0 +1,51 @@
+#!/bin/sh
+# spotify — dwmblocks module for Spotify / media playback
+# Click handling:
+# 1 = Play/Pause, 2 = Previous track, 3 = Next track
+case "$BLOCK_BUTTON" in
+	1) playerctl play-pause 2>/dev/null; pkill -RTMIN+11 dwmblocks ;;
+	2) playerctl previous 2>/dev/null; pkill -RTMIN+11 dwmblocks ;;
+	3) playerctl next 2>/dev/null; pkill -RTMIN+11 dwmblocks ;;
+esac
+
+# Find active players (prioritize spotify if available)
+player=""
+for p in $(playerctl -l 2>/dev/null); do
+	case "$p" in
+		spotify*) player="$p"; break ;;
+		*) [ -z "$player" ] && player="$p" ;;
+	esac
+done
+
+[ -z "$player" ] && exit 0
+
+status=$(playerctl --player="$player" status 2>/dev/null)
+[ -z "$status" ] && exit 0
+
+artist=$(playerctl --player="$player" metadata artist 2>/dev/null)
+title=$(playerctl --player="$player" metadata title 2>/dev/null)
+
+[ -z "$title" ] && exit 0
+
+# Truncate title if longer than 25 chars
+if [ ${#title} -gt 25 ]; then
+	title="$(echo "$title" | cut -c 1-22)..."
+fi
+
+if [ -n "$artist" ]; then
+	if [ ${#artist} -gt 18 ]; then
+		artist="$(echo "$artist" | cut -c 1-15)..."
+	fi
+	display="$artist - $title"
+else
+	display="$title"
+fi
+
+case "$status" in
+	Playing)
+		printf " %s\n" "$display"
+		;;
+	Paused)
+		printf " 󰏤 %s\n" "$display"
+		;;
+esac
